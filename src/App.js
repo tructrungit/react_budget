@@ -13,7 +13,7 @@ class App extends Component {
                 <div className="container">
                     <div className="row">
                         <NoteList/>
-                        <NoteForm/>
+                        {this.props.isShowNoteForm && <NoteForm/>}
                     </div>
                 </div>
             </div>
