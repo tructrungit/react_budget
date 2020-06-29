@@ -31,14 +31,13 @@ class NoteList extends Component {
         if (this.state.data) {
             return this.state.data.map((value, key) => {
                 return (
-                    <NoteDetail key={value.key} keyId={value.key} title={value.title} content={value.content}/>
+                    <NoteDetail key={value.key} keyId={value.key} title={value.title} content={value.content} note={value}/>
                 )
              })
         }
     }
 
     render() {
-        console.log(this.state.data)
         return (
             <div className="col">
                 <div id="noteList" role="tablist" aria-multiselectable="true">

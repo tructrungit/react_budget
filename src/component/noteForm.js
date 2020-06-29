@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import { CONSTANTS } from './constants';
 
 class NoteForm extends Component {
     constructor(props) {
@@ -9,6 +10,7 @@ class NoteForm extends Component {
             noteContent: ''
         }
     }
+
     changeForm = (event) => {
         let name = event.target.name;
         let value = event.target.value;
@@ -21,25 +23,26 @@ class NoteForm extends Component {
         let item = {};
         item.title = title;
         item.content = content;
-        // this.props.getData(item);
+        if (this.props.isEdit) item.key = this.props.editData.key;
         this.props.addData(item);
     }
 
     render() {
+        console.log(this.props.isEdit)
+        console.log(this.props.editData)
         return (
             <div className="col-4">
                 <form>
-                    <h3>Create or Edit note</h3>
-                    <h1>{this.props.testState}</h1>
+                    <h3>Create or Edit Note</h3>
                     <div className="form-group">
-                        <label htmlFor="input-title">Note title</label>
+                        <label htmlFor="input-title">Title</label>
                         <input onChange={(event) => this.changeForm(event)} type="text" className="form-control" id="input-title" aria-describedby="helpId"
-                               name="noteTitle" placeholder="Input note title"></input>
+                               name="noteTitle" placeholder="Input note title" defaultValue={this.props.editData.title}></input>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="input-content">Note Content</label>
+                        <label htmlFor="input-content">Content</label>
                         <textarea onChange={(event) => this.changeForm(event)} type="text" className="form-control" id="input-content" aria-describedby="helpId"
-                                  name="noteContent" placeholder="Input note content"></textarea>
+                                  name="noteContent" placeholder="Input note content" defaultValue={this.props.editData.content}></textarea>
                     </div>
                     <button onClick={() => this.addData(this.state.noteTitle, this.state.noteContent)} className="btn btn-primary btn-block" type="reset" >Save</button>
                 </form>
@@ -50,14 +53,15 @@ class NoteForm extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        testState: state.test
+        isEdit: state.noteReducer.isEdit,
+        editData: state.noteReducer.editData
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         addData: (item) => {
-            dispatch({type: 'ADD_NOTE', data: item})
+            dispatch({type: CONSTANTS.ADD_NOTE, data: item})
         }
     }
 }
