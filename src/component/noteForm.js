@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 
 class NoteForm extends Component {
     constructor(props) {
@@ -20,8 +21,8 @@ class NoteForm extends Component {
         let item = {};
         item.title = title;
         item.content = content;
-        console.log(item);
-        this.props.getData(item);
+        // this.props.getData(item);
+        this.props.addData(item);
     }
 
     render() {
@@ -29,6 +30,7 @@ class NoteForm extends Component {
             <div className="col-4">
                 <form>
                     <h3>Create or Edit note</h3>
+                    <h1>{this.props.testState}</h1>
                     <div className="form-group">
                         <label htmlFor="input-title">Note title</label>
                         <input onChange={(event) => this.changeForm(event)} type="text" className="form-control" id="input-title" aria-describedby="helpId"
@@ -46,4 +48,18 @@ class NoteForm extends Component {
     }
 }
 
-export default NoteForm;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        testState: state.test
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        addData: (item) => {
+            dispatch({type: 'ADD_NOTE', data: item})
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NoteForm);
