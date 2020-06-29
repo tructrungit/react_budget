@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<!--    top menu-->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+                aria-controls="collapsibleNavId"
+                aria-expanded="false" aria-label="Toggle navigation"></button>
+        <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavId">
+            <ul class="navbar-nav mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">View list</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+<!--    end top menu-->
+
+<!--    container-->
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div id="noteList" role="tablist" aria-multiselectable="true">
+                    <div class="card">
+                        <div class="card-header" role="tab" id="note-1">
+                            <h5 class="mb-0">
+                                <a data-toggle="collapse" data-parent="#noteList" href="#note1"
+                                   aria-expanded="true" aria-controls="note1">
+                                    Note 31/3/2018
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="note1" class="collapse in" role="tabpanel"
+                             aria-labelledby="note1">
+                            <div class="card-body">
+                                It is a long established fact that a reader will be distracted by the readable content
+                                of a page when looking at its layout. The point of using Lorem Ipsum is that it has a
+                                more-or-less normal distribution of letters, as opposed to using 'Content here, content
+                                here', making it look like readable English. Many desktop publishing packages and web
+                                page editors now use Lorem Ipsum as their default model text, and a search for 'lorem
+                                ipsum' will uncover many web sites still in their infancy. Various versions have evolved
+                                over the years, sometimes by accident, sometimes on purpose (injected humour and the
+                                like).
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" role="tab" id="section2HeaderId">
+                            <h5 class="mb-0">
+                                <a data-toggle="collapse" data-parent="#noteList" href="#note2"
+                                   aria-expanded="true" aria-controls="note2">
+                                    Note 01/4/2018
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="note2" class="collapse in" role="tabpanel"
+                             aria-labelledby="section2HeaderId">
+                            <div class="card-body">
+                                It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <h3>Create or Edit note</h3>
+                <div class="form-group">
+                    <label for="input-title">Note title</label>
+                    <input type="text"
+                           class="form-control" name="" id="input-title" aria-describedby="helpId" placeholder="Input note title">
+                    <small id="helpId1" class="form-text text-muted">Input note title here</small>
+                </div>
+                <div class="form-group">
+                    <label for="input-content">Note Content</label>
+                    <textarea type="text"
+                           class="form-control" name="" id="input-content" aria-describedby="helpId" placeholder="Input note content">
+                    </textarea>
+                    <small id="helpId2" class="form-text text-muted">Input note content here</small>
+                </div>
+                <input class="btn btn-primary btn-block" type="submit" value="Save">
+            </div>
+        </div>
+    </div>
+<!-- end container-->
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
