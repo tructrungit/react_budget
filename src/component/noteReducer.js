@@ -1,7 +1,7 @@
 import { noteData } from "./firebaseConnect";
 
 const noteState = {
-    test: false
+    isShowForm: false
 }
 
 export const noteReducer = (state = noteState, action) => {
@@ -10,6 +10,8 @@ export const noteReducer = (state = noteState, action) => {
             console.log('connect-----------' + action.data)
             noteData.push(action.data);
             return state
+        case 'CHANGE_IS_SHOW_FORM_STATE':
+            return {...state, isShowForm: !state.isShowForm}
         default:
             return state
     }
