@@ -20,9 +20,7 @@ export const noteReducer = (state = noteState, action) => {
                 // create data
                 noteData.push(action.data);
             }
-            state.editData = {};
-            state.isEdit = false;
-            return state
+            return {...state}
         case CONSTANTS.CHANGE_FORM:
             if (state.isOpenForm) {
                 state.editData = {};
@@ -31,6 +29,9 @@ export const noteReducer = (state = noteState, action) => {
             return {...state, isOpenForm: !state.isOpenForm}
         case CONSTANTS.GET_EDIT_DATA:
             return {...state, editData: action.editData, isEdit: true}
+        case CONSTANTS.DELETE_DATA:
+            noteData.child(action.keyData).remove();
+            return {...state}
         default:
             return state
     }

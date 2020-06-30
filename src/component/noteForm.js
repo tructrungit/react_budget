@@ -25,15 +25,14 @@ class NoteForm extends Component {
         item.content = content;
         if (this.props.isEdit) item.key = this.props.editData.key;
         this.props.addData(item);
+        this.props.showHideNoteForm();
     }
 
     render() {
-        console.log(this.props.isEdit)
-        console.log(this.props.editData)
         return (
             <div className="col-4">
                 <form>
-                    <h3>Create or Edit Note</h3>
+                    <h3>{this.props.isEdit ? 'Edit ' : 'Create '} Note</h3>
                     <div className="form-group">
                         <label htmlFor="input-title">Title</label>
                         <input onChange={(event) => this.changeForm(event)} type="text" className="form-control" id="input-title" aria-describedby="helpId"
@@ -62,6 +61,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         addData: (item) => {
             dispatch({type: CONSTANTS.ADD_NOTE, data: item})
+        },
+        showHideNoteForm: () => {
+            dispatch({type: CONSTANTS.CHANGE_FORM})
         }
     }
 }

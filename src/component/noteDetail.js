@@ -4,8 +4,8 @@ import { CONSTANTS } from './constants';
 
 class NoteDetail extends Component {
     edit() {
-        if (!this.props.isOpenForm) this.props.showHideNoteForm();
-        this.props.editData(this.props.note)
+        this.props.editData(this.props.note);
+        this.props.showHideNoteForm();
     }
 
     render() {
@@ -18,8 +18,8 @@ class NoteDetail extends Component {
                             <a data-toggle="collapse" data-parent="#noteList" href={'#' + this.props.keyId} aria-expanded="true"
                                 aria-controls={this.props.keyId} className="btn btn-outline-primary">View
                             </a>
-                            <input type="button" className="btn btn-outline-warning" value="Edit" onClick={() => this.edit()}></input>
-                            <input type="button" className="btn btn-outline-danger" value="Delete"></input>
+                            {!this.props.isEdit && !this.props.isOpenForm && <input type="button" className="btn btn-outline-warning" value="Edit" onClick={() => this.edit()}/>}
+                            <input type="button" className="btn btn-outline-danger" value="Delete" onClick={() => {if(window.confirm('Delete the item?'))this.props.deleteData(this.props.keyId)}}/>
                         </div>
                     </h5>
                 </div>
@@ -47,6 +47,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         editData: (editData) => {
             dispatch({type: CONSTANTS.GET_EDIT_DATA, editData})
+        },
+        deleteData: (keyData) => {
+            dispatch({type: CONSTANTS.DELETE_DATA, keyData})
         }
     }
 }
