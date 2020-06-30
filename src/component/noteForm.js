@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { CONSTANTS } from './constants';
+import '../css/form.css'
 
 class NoteForm extends Component {
     constructor(props) {
@@ -30,23 +31,22 @@ class NoteForm extends Component {
 
     render() {
         return (
-            <div className="col-4">
-                <form>
-                    <h3>{this.props.isEdit ? 'Edit ' : 'Create '} Note</h3>
-                    <div className="form-group">
-                        <label htmlFor="input-title">Title</label>
-                        <input onChange={(event) => this.changeForm(event)} type="text" className="form-control" id="input-title" aria-describedby="helpId"
-                               name="noteTitle" placeholder="Input note title" defaultValue={this.props.editData.title}></input>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="input-content">Content</label>
-                        <textarea onChange={(event) => this.changeForm(event)} type="text" className="form-control" id="input-content" aria-describedby="helpId"
-                                  name="noteContent" placeholder="Input note content" defaultValue={this.props.editData.content}></textarea>
-                    </div>
-                    <button onClick={() => this.addData(this.state.noteTitle, this.state.noteContent)} className="btn btn-primary btn-block" type="reset" >Save</button>
-                </form>
+            <div className="col-md-4">
+                <div className="form_main">
+                <h4 className="heading"><strong>{this.props.isEdit ? 'Edit' : 'Create'} </strong> Note <span /></h4>
+                <div className="form">
+                    <form method="post" id="contactFrm" name="contactFrm">
+                    <input onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-title" aria-describedby="helpId"
+                            name="noteTitle" placeholder="Your title" defaultValue={this.props.editData.title}></input>
+                    <textarea onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-content" aria-describedby="helpId"
+                                  name="noteContent" placeholder="Your content" defaultValue={this.props.editData.content}></textarea>
+                    <button onClick={() => this.addData(this.state.noteTitle, this.state.noteContent)} className="txt2" type="reset" >Save</button>
+                    <button onClick={() => this.props.showHideNoteForm()} className="txt2 btn-info" type="button" >Cancel</button>
+                    </form>
+                </div>
+                </div>
             </div>
-        );
+        )
     }
 }
 
