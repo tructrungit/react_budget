@@ -14,7 +14,8 @@ export const noteReducer = (state = noteState, action) => {
                 // update data to firebase
                 noteData.child(action.data.key).update({
                     title: action.data.title,
-                    content: action.data.content
+                    content: action.data.content,
+                    date: action.data.date
                 })
             } else {
                 // create data

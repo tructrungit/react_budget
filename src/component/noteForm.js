@@ -2,28 +2,46 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { CONSTANTS } from './constants';
 import '../css/form.css'
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import 'react-day-picker/lib/style.css';
+import moment from 'moment';
+
 
 class NoteForm extends Component {
     constructor(props) {
         super(props);
+        this.handleDayChange = this.handleDayChange.bind(this);
         this.state = {
             noteTitle: '',
-            noteContent: ''
+            noteContent: '',
+            noteDay: moment().format('YYYY-M-DD'),
+            selectedDay: moment().toDate()
         }
     }
 
     changeForm = (event) => {
+        var a = moment('2016-01-01')
         let name = event.target.name;
         let value = event.target.value;
         this.setState({
             [name]: value
-        })
+        });
     }
 
-    addData = (title, content) => {
+    handleDayChange(selectedDay, modifiers, dayPickerInput) {
+        let input = dayPickerInput.getInput();
+        this.setState({
+            selectedDay: selectedDay,
+            noteDay: input.value
+        });
+    }
+    
+
+    addData = (title, content, date) => {
         let item = {};
         item.title = title;
         item.content = content;
+        item.date = date;
         if (this.props.isEdit) item.key = this.props.editData.key;
         this.props.addData(item);
         this.props.showHideNoteForm();
@@ -40,7 +58,12 @@ class NoteForm extends Component {
                             name="noteTitle" placeholder="Your title" defaultValue={this.props.editData.title}></input>
                     <textarea onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-content" aria-describedby="helpId"
                                   name="noteContent" placeholder="Your content" defaultValue={this.props.editData.content}></textarea>
-                    <button onClick={() => this.addData(this.state.noteTitle, this.state.noteContent)} className="txt2" type="reset" >Save</button>
+                    <DayPickerInput
+                        value={this.props.editData.date || this.state.selectedDay}
+                        onDayChange={this.handleDayChange}
+                    />
+                    <br/>
+                    <button onClick={() => this.addData(this.state.noteTitle, this.state.noteContent, this.state.noteDay)} className="txt2" type="reset" >Save</button>
                     <button onClick={() => this.props.showHideNoteForm()} className="txt2 btn-info" type="button" >Cancel</button>
                     </form>
                 </div>

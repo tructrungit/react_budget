@@ -25,7 +25,7 @@ class NoteDetail extends Component {
                 </div>
                 <div id={this.props.keyId} className="collapse in" role="tabpanel" aria-labelledby={this.props.keyId}>
                     <div className="card-body">
-                        {this.props.content}
+                        {this.props.content} - {this.props.date}
                     </div>
                 </div>
             </div>
