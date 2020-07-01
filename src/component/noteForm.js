@@ -20,7 +20,6 @@ class NoteForm extends Component {
     }
 
     changeForm = (event) => {
-        var a = moment('2016-01-01')
         let name = event.target.name;
         let value = event.target.value;
         this.setState({
@@ -53,17 +52,17 @@ class NoteForm extends Component {
                 <h4 className="heading"><strong>{this.props.isEdit ? 'Edit' : 'Create'} </strong> Note <span /></h4>
                 <div className="form">
                     <form method="post" id="contactFrm" name="contactFrm">
-                    <input onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-title" aria-describedby="helpId"
-                            name="noteTitle" placeholder="Your title" defaultValue={this.state.noteTitle}></input>
-                    <textarea onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-content" aria-describedby="helpId"
-                                  name="noteContent" placeholder="Your content" defaultValue={this.state.noteContent}></textarea>
-                    <DayPickerInput
-                        value={this.state.selectedDay}
-                        onDayChange={this.handleDayChange}
-                    />
-                    <br/>
-                    <button onClick={() => this.addData(this.state.noteTitle, this.state.noteContent, this.state.noteDay)} className="txt2" type="reset" >Save</button>
-                    <button onClick={() => this.props.showHideNoteForm()} className="txt2 btn-info" type="button" >Cancel</button>
+                        <input onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-title" aria-describedby="helpId"
+                                name="noteTitle" placeholder="Your title" defaultValue={this.state.noteTitle}></input>
+                        <textarea onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-content" aria-describedby="helpId"
+                                    name="noteContent" placeholder="Your content" defaultValue={this.state.noteContent}></textarea>
+                        <DayPickerInput
+                            value={this.state.selectedDay}
+                            onDayChange={this.handleDayChange}
+                        />
+                        <br/>
+                        <button onClick={() => this.addData(this.state.noteTitle, this.state.noteContent, this.state.noteDay)} className="txt2" type="reset" >Save</button>
+                        <button onClick={() => this.props.showHideNoteForm()} className="txt2 btn-info" type="button" >Cancel</button>
                     </form>
                 </div>
                 </div>

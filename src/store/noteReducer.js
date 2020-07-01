@@ -1,5 +1,5 @@
-import { noteData } from "./firebaseConnect";
-import { CONSTANTS } from "./constants";
+import { noteData } from "../component/firebaseConnect";
+import { CONSTANTS } from "../component/constants";
 
 const noteState = {
     isOpenForm: false,
