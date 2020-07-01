@@ -14,6 +14,7 @@ export const spendingReducer = (state = spendingState, action) => {
                 // update data to firebase
                 spendingData.child(action.data.key).update({
                     title: action.data.title,
+                    amount: action.data.amount,
                     content: action.data.content,
                     date: action.data.date
                 })

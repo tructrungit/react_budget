@@ -8,12 +8,17 @@ class SpendingDetail extends Component {
         this.props.showHideNoteForm();
     }
 
+    formatAmount(amount) {
+        if (!amount) amount = 0;
+        return parseInt(amount).toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+    }
+
     render() {
         return (
-            <div className="card">
+            <div className="card border-dark mb-3">
                 <div className="card-header" role="tab">
-                    <h5 className="mb-0">
-                        {this.props.title}
+                    <h5 className="mb-0 text-success">
+                        {this.formatAmount(this.props.amount)}
                         <div className="btn-group float-right">
                             <a data-toggle="collapse" data-parent="#noteList" href={'#' + this.props.keyId} aria-expanded="true"
                                 aria-controls={this.props.keyId} className="btn btn-outline-primary">View
@@ -24,8 +29,11 @@ class SpendingDetail extends Component {
                     </h5>
                 </div>
                 <div id={this.props.keyId} className="collapse in" role="tabpanel" aria-labelledby={this.props.keyId}>
-                    <div className="card-body">
-                        {this.props.content} - {this.props.date}
+                    <div className="card-body text-success">
+                        <h5 className="card-title">{this.props.title}</h5>
+                        <p className="card-text"><span className="font-weight-bold">Amount: </span>{this.formatAmount(this.props.amount)}</p>
+                        <p className="card-text"><span className="font-weight-bold">Content: </span>{this.props.content}</p>
+                        <p className="card-text"><span className="font-weight-bold">Date: </span>{this.props.date}</p>
                     </div>
                 </div>
             </div>

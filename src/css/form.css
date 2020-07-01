@@ -37,7 +37,7 @@ form_main {
     padding: 10px 0 10px 5px;
     width: 100%;
 }
-.txt2[type="reset"] {
+.txt2[type="submit"] {
     background: #7BC81E none repeat scroll 0 0;
     border: 1px solid #4f5c04;
     border-radius: 25px;

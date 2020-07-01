@@ -18,6 +18,7 @@ class SpendingList extends Component {
                 var data = {};
                 data.key = item.key;
                 data.title = item.val().title;
+                data.amount = item.val().amount;
                 data.content = item.val().content;
                 data.date = item.val().date;
                 arrayData.push(data);
@@ -32,7 +33,7 @@ class SpendingList extends Component {
         if (this.state.data) {
             return this.state.data.map((value, key) => {
                 return (
-                    <SpendingDetail key={value.key} keyId={value.key} title={value.title} content={value.content} note={value} date={value.date}/>
+                    <SpendingDetail key={value.key} keyId={value.key} title={value.title} amount={value.amount} content={value.content} note={value} date={value.date}/>
                 )
              })
         }

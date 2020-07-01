@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { CONSTANTS } from './constants';
-import '../css/form.css'
+import moment from 'moment';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
-import moment from 'moment';
+import '../css/form.css'
+
 
 
 class SpendingForm extends Component {
@@ -12,9 +13,10 @@ class SpendingForm extends Component {
         super(props);
         this.handleDayChange = this.handleDayChange.bind(this);
         this.state = {
-            noteTitle: this.props.editData.title || '',
-            noteContent: this.props.editData.content || '',
-            noteDay: this.props.editData.date || moment().format('YYYY-M-DD'),
+            formTitle: this.props.editData.title || '',
+            formAmount: this.props.editData.amount || '',
+            formContent: this.props.editData.content || '',
+            formDate: this.props.editData.date || moment().format('YYYY-M-DD'),
             selectedDay: this.props.editData.date || moment().toDate()
         }
     }
@@ -31,13 +33,14 @@ class SpendingForm extends Component {
         let input = dayPickerInput.getInput();
         this.setState({
             selectedDay: selectedDay,
-            noteDay: input.value
+            formDate: input.value
         });
     }
     
-    addData = (title, content, date) => {
+    addData = (title, amount, content, date) => {
         let item = {};
         item.title = title;
+        item.amount = amount;
         item.content = content;
         item.date = date;
         if (this.props.isEdit) item.key = this.props.editData.key;
@@ -51,17 +54,31 @@ class SpendingForm extends Component {
                 <div className="form_main">
                 <h4 className="heading"><strong>{this.props.isEdit ? 'Edit' : 'Create'} </strong> Spending <span /></h4>
                 <div className="form">
-                    <form method="post" id="contactFrm" name="contactFrm">
-                        <input onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-title" aria-describedby="helpId"
-                                name="noteTitle" placeholder="Your title" defaultValue={this.state.noteTitle}></input>
-                        <textarea onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-content" aria-describedby="helpId"
-                                    name="noteContent" placeholder="Your content" defaultValue={this.state.noteContent}></textarea>
-                        <DayPickerInput
-                            value={this.state.selectedDay}
-                            onDayChange={this.handleDayChange}
-                        />
+                    <form method="post" onSubmit={() => this.addData(this.state.formTitle, this.state.formAmount, this.state.formContent, this.state.formDate)}>
+                        <div className="form-group">
+                            <input onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-title" aria-describedby="helpId"
+                                name="formTitle" placeholder="Title" defaultValue={this.state.formTitle} required></input>
+                            {/* <small id="formTitleHelp" className="form-text text-muted">Input title of spending</small> */}
+                        </div>
+                        <div className="form-group">
+                            <input onChange={(event) => this.changeForm(event)} type="number" min="0" className="txt" id="input-title" aria-describedby="helpId"
+                                name="formAmount" placeholder="Amount" defaultValue={this.state.formAmount} required></input>
+                            {/* <small id="formAmountHelp" className="form-text text-muted">Input amount of spending</small> */}
+                        </div>
+                        <div className="form-group">
+                            <textarea onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-content" aria-describedby="helpId"
+                                name="formContent" placeholder="Content" defaultValue={this.state.formContent}></textarea>
+                            {/* <small id="formContentHelp" className="form-text text-muted">Input content of spending</small> */}
+                        </div>         
+                        <div className="form-group">           
+                            <DayPickerInput
+                                value={this.state.selectedDay}
+                                onDayChange={this.handleDayChange}
+                            />
+                            {/* <small id="formDateHelp" className="form-text text-muted">Select date of spending</small> */}
+                        </div>    
                         <br/>
-                        <button onClick={() => this.addData(this.state.noteTitle, this.state.noteContent, this.state.noteDay)} className="txt2" type="reset" >Save</button>
+                        <button className="txt2" type="submit" >Save</button>
                         <button onClick={() => this.props.showHideNoteForm()} className="txt2 btn-info" type="button" >Cancel</button>
                     </form>
                 </div>
