@@ -1,25 +1,25 @@
-import { noteData } from "../component/firebaseConnect";
+import { spendingData } from "../component/firebaseConnect";
 import { CONSTANTS } from "../component/constants";
 
-const noteState = {
+const spendingState = {
     isOpenForm: false,
     isEdit: false,
     editData: {}
 }
 
-export const noteReducer = (state = noteState, action) => {
+export const spendingReducer = (state = spendingState, action) => {
     switch (action.type) {
-        case CONSTANTS.ADD_NOTE:
+        case CONSTANTS.ADD_SPENDING:
             if (state.isEdit) {
                 // update data to firebase
-                noteData.child(action.data.key).update({
+                spendingData.child(action.data.key).update({
                     title: action.data.title,
                     content: action.data.content,
                     date: action.data.date
                 })
             } else {
                 // create data
-                noteData.push(action.data);
+                spendingData.push(action.data);
             }
             return {...state}
         case CONSTANTS.CHANGE_FORM:
@@ -31,7 +31,7 @@ export const noteReducer = (state = noteState, action) => {
         case CONSTANTS.GET_EDIT_DATA:
             return {...state, editData: action.editData, isEdit: true}
         case CONSTANTS.DELETE_DATA:
-            noteData.child(action.keyData).remove();
+            spendingData.child(action.keyData).remove();
             return {...state}
         default:
             return state

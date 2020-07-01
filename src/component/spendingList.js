@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import NoteDetail from './noteDetail';
-import { noteData } from './firebaseConnect';
+import { spendingData } from './firebaseConnect';
+import SpendingDetail from './spendingDetail';
 
-class NoteList extends Component {
+class SpendingList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -12,7 +12,7 @@ class NoteList extends Component {
     }
 
     componentWillMount() {
-        noteData.on('value', (notes) => {
+        spendingData.on('value', (notes) => {
             var arrayData = [];
             notes.forEach((item) => {
                 var data = {};
@@ -32,7 +32,7 @@ class NoteList extends Component {
         if (this.state.data) {
             return this.state.data.map((value, key) => {
                 return (
-                    <NoteDetail key={value.key} keyId={value.key} title={value.title} content={value.content} note={value} date={value.date}/>
+                    <SpendingDetail key={value.key} keyId={value.key} title={value.title} content={value.content} note={value} date={value.date}/>
                 )
              })
         }
@@ -49,4 +49,4 @@ class NoteList extends Component {
     }
 }
 
-export default NoteList;
+export default SpendingList;

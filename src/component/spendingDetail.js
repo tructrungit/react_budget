@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { CONSTANTS } from './constants';
 
-class NoteDetail extends Component {
+class SpendingDetail extends Component {
     edit() {
         this.props.editData(this.props.note);
         this.props.showHideNoteForm();
@@ -35,8 +35,8 @@ class NoteDetail extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        isOpenForm: state.noteReducer.isOpenForm,
-        isEdit: state.noteReducer.isEdit,
+        isOpenForm: state.spendingReducer.isOpenForm,
+        isEdit: state.spendingReducer.isEdit,
     }
 }
 
@@ -54,4 +54,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NoteDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(SpendingDetail);

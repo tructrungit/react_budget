@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import Menu from './menu'
-import NoteList from './noteList'
-import NoteForm from './noteForm'
 import { connect } from 'react-redux';
 import { CONSTANTS } from '../component/constants';
+import SpendingForm from './spendingForm';
+import SpendingList from './spendingList';
 
 class HomePage extends Component {
     loadHomePage() {
@@ -16,13 +16,13 @@ class HomePage extends Component {
                         <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0" style={{textTransform: 'uppercase'}}>Salary management</h2>
                     </div>
                     <div className="clearfix">
-                        {this.props.isOpenForm && <NoteForm/>}
+                        {this.props.isOpenForm && <SpendingForm/>}
                     </div>
                     <div className="alert clearfix">
-                        {!this.props.isOpenForm && <button type="button" onClick={() => this.props.showHideNoteForm()} className="btn btn-primary btn-lg btn-block">Create Note</button>}
+                        {!this.props.isOpenForm && <button type="button" onClick={() => this.props.showHideNoteForm()} className="btn btn-primary btn-lg btn-block">Create Spending</button>}
                     </div>
                     <div className="row">
-                        <NoteList/>
+                        <SpendingList/>
                     </div>
                 </div>
             </div>
@@ -40,7 +40,7 @@ class HomePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        isOpenForm: state.noteReducer.isOpenForm,
+        isOpenForm: state.spendingReducer.isOpenForm,
     }
 }
 

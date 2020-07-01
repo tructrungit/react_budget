@@ -7,7 +7,7 @@ import 'react-day-picker/lib/style.css';
 import moment from 'moment';
 
 
-class NoteForm extends Component {
+class SpendingForm extends Component {
     constructor(props) {
         super(props);
         this.handleDayChange = this.handleDayChange.bind(this);
@@ -49,7 +49,7 @@ class NoteForm extends Component {
         return (
             <div className="col-md-12">
                 <div className="form_main">
-                <h4 className="heading"><strong>{this.props.isEdit ? 'Edit' : 'Create'} </strong> Note <span /></h4>
+                <h4 className="heading"><strong>{this.props.isEdit ? 'Edit' : 'Create'} </strong> Spending <span /></h4>
                 <div className="form">
                     <form method="post" id="contactFrm" name="contactFrm">
                         <input onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-title" aria-describedby="helpId"
@@ -73,15 +73,15 @@ class NoteForm extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        isEdit: state.noteReducer.isEdit,
-        editData: state.noteReducer.editData
+        isEdit: state.spendingReducer.isEdit,
+        editData: state.spendingReducer.editData
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         addData: (item) => {
-            dispatch({type: CONSTANTS.ADD_NOTE, data: item})
+            dispatch({type: CONSTANTS.ADD_SPENDING, data: item})
         },
         showHideNoteForm: () => {
             dispatch({type: CONSTANTS.CHANGE_FORM})
@@ -89,4 +89,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NoteForm);
+export default connect(mapStateToProps, mapDispatchToProps)(SpendingForm);
