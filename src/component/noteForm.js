@@ -12,10 +12,10 @@ class NoteForm extends Component {
         super(props);
         this.handleDayChange = this.handleDayChange.bind(this);
         this.state = {
-            noteTitle: '',
-            noteContent: '',
-            noteDay: moment().format('YYYY-M-DD'),
-            selectedDay: moment().toDate()
+            noteTitle: this.props.editData.title || '',
+            noteContent: this.props.editData.content || '',
+            noteDay: this.props.editData.date || moment().format('YYYY-M-DD'),
+            selectedDay: this.props.editData.date || moment().toDate()
         }
     }
 
@@ -36,7 +36,6 @@ class NoteForm extends Component {
         });
     }
     
-
     addData = (title, content, date) => {
         let item = {};
         item.title = title;
@@ -49,17 +48,17 @@ class NoteForm extends Component {
 
     render() {
         return (
-            <div className="col-md-4">
+            <div className="col-md-12">
                 <div className="form_main">
                 <h4 className="heading"><strong>{this.props.isEdit ? 'Edit' : 'Create'} </strong> Note <span /></h4>
                 <div className="form">
                     <form method="post" id="contactFrm" name="contactFrm">
                     <input onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-title" aria-describedby="helpId"
-                            name="noteTitle" placeholder="Your title" defaultValue={this.props.editData.title}></input>
+                            name="noteTitle" placeholder="Your title" defaultValue={this.state.noteTitle}></input>
                     <textarea onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-content" aria-describedby="helpId"
-                                  name="noteContent" placeholder="Your content" defaultValue={this.props.editData.content}></textarea>
+                                  name="noteContent" placeholder="Your content" defaultValue={this.state.noteContent}></textarea>
                     <DayPickerInput
-                        value={this.props.editData.date || this.state.selectedDay}
+                        value={this.state.selectedDay}
                         onDayChange={this.handleDayChange}
                     />
                     <br/>
