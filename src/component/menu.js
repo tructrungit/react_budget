@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import { logOutAction } from '../action/userAction';
 
 class Menu extends Component {
     render() {
         return (
             <nav className="navbar navbar-expand-sm navbar-dark bg-primary">
-                <a className="navbar-brand" href="#">Navbar</a>
+                <a className="navbar-brand" href="#">Welcome to {this.props.user}</a>
                 <button className="navbar-toggler d-lg-none" type="button" data-toggle="collapse"
                         data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
                         aria-label="Toggle navigation"/>
@@ -16,6 +18,9 @@ class Menu extends Component {
                         <li className="nav-item">
                             <a className="nav-link" href="#">View list</a>
                         </li>
+                        <li className="nav-item">
+                            <a className="nav-link" onClick={() => {if(window.confirm('Are you sure you want to logout?'))this.props.logOutAction()}} href="#">Logout</a>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -23,4 +28,12 @@ class Menu extends Component {
     }
 }
 
-export default Menu;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        user: state.loginReducer.user
+    }
+}
+
+const mapDispatchToProps = { logOutAction };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);

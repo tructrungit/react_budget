@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import '../css/loginForm.css'
-import { CONSTANTS } from './constants'
+import { getUser } from '../action/userAction';
 
 
 class LoginForm extends Component {
@@ -22,7 +22,7 @@ class LoginForm extends Component {
     }
 
     handleLogin() {
-        this.props.login();
+        this.props.getUser(this.state.userName, this.state.password);
     }
 
     loadLoginPage() {
@@ -69,12 +69,6 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        login: () => {
-            dispatch({type: CONSTANTS.LOGIN})
-        },
-    }
-}
+const mapDispatchToProps = { getUser };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
