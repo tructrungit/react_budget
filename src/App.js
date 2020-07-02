@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import './App.css';
 import LoginForm from './component/login/loginForm';
-import ExpensePage from './component/expanse/expensePage';
 import { connect } from 'react-redux';
+import HomePage from './component/home';
 
 class App extends Component {
     render() {
         return (
             <div>
                 {!this.props.isLogin && <LoginForm/>}
-                {this.props.isLogin && <ExpensePage/>}
+                {this.props.isLogin && <HomePage/>}
             </div>
         );
     }

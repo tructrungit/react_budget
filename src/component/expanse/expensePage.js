@@ -9,7 +9,6 @@ class ExpensePage extends Component {
     loadHomePage() {
         return (
             <div>
-                <Menu/>
                 <div className="container">
                     <br/>
                     <div className="alert alert-info clearfix">
