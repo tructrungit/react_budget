@@ -56,19 +56,22 @@ class ExpenseForm extends Component {
                 <div className="form">
                     <form method="post" onSubmit={() => this.addData(this.state.formTitle, this.state.formAmount, this.state.formContent, this.state.formDate)}>
                         <div className="form-group">
+                            <label htmlFor="input-title" className="font-weight-bold">Title</label>
                             <input onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-title" aria-describedby="helpId"
-                                name="formTitle" placeholder="Title" defaultValue={this.state.formTitle} required></input>
-                            <small id="formTitleHelp" className="form-text text-muted">Input title of expense</small>
+                                name="formTitle"  defaultValue={this.state.formTitle} required></input>
+                            {/* <small id="formTitleHelp" className="form-text text-muted">Input title of expense</small> */}
                         </div>
                         <div className="form-group">
-                            <input onChange={(event) => this.changeForm(event)} type="number" min="0" id="input-title" aria-describedby="helpId"
-                                name="formAmount" placeholder="Amount" defaultValue={this.state.formAmount} required></input>
-                            <small id="formAmountHelp" className="form-text text-muted">Input amount of expense</small>
+                            <label htmlFor="input-amount" className="font-weight-bold">Amount</label>
+                            <input onChange={(event) => this.changeForm(event)} type="number" min="0" id="input-amount" aria-describedby="helpId"
+                                name="formAmount" defaultValue={this.state.formAmount} required></input>
+                            {/* <small id="formAmountHelp" className="form-text text-muted">Input amount of expense</small> */}
                         </div>
                         <div className="form-group">
+                            <label htmlFor="input-content" className="font-weight-bold">Conent</label>
                             <textarea onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-content" aria-describedby="helpId"
-                                name="formContent" placeholder="Content" defaultValue={this.state.formContent}></textarea>
-                            <small id="formContentHelp" className="form-text text-muted">Input content of expense</small>
+                                name="formContent" defaultValue={this.state.formContent}></textarea>
+                            {/* <small id="formContentHelp" className="form-text text-muted">Input content of expense</small> */}
                         </div>         
                         <div className="form-group">           
                             <DayPickerInput

@@ -6,6 +6,7 @@ class ExpenseDetail extends Component {
     edit() {
         this.props.editData(this.props.note);
         this.props.showHideNoteForm();
+        window.scrollTo(0, 0)
     }
 
     formatAmount(amount) {
