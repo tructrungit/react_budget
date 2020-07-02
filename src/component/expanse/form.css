@@ -1,6 +1,9 @@
 form_main {
     width: 100%;
 }
+input[type=number]{
+    width: 100%;
+}
 .form_main h4 {
     font-family: roboto;
     font-size: 20px;

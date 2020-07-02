@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { CONSTANTS } from './constants';
+import { CONSTANTS } from '../constants';
 
-class SpendingDetail extends Component {
+class ExpenseDetail extends Component {
     edit() {
         this.props.editData(this.props.note);
         this.props.showHideNoteForm();
@@ -43,23 +43,23 @@ class SpendingDetail extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        isOpenForm: state.spendingReducer.isOpenForm,
-        isEdit: state.spendingReducer.isEdit,
+        isOpenForm: state.expenseReducer.isOpenForm,
+        isEdit: state.expenseReducer.isEdit,
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         showHideNoteForm: () => {
-            dispatch({type: CONSTANTS.CHANGE_FORM})
+            dispatch({type: CONSTANTS.CHANGE_EXPENSE_FORM})
         },
         editData: (editData) => {
-            dispatch({type: CONSTANTS.GET_EDIT_DATA, editData})
+            dispatch({type: CONSTANTS.GET_EDIT_EXPENSE_DATA, editData})
         },
         deleteData: (keyData) => {
-            dispatch({type: CONSTANTS.DELETE_DATA, keyData})
+            dispatch({type: CONSTANTS.DELETE_EXPENSE_DATA, keyData})
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SpendingDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(ExpenseDetail);

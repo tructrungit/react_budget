@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
-import LoginForm from './component/loginForm';
-import HomePage from './component/homePage';
+import LoginForm from './component/login/loginForm';
+import ExpensePage from './component/expanse/expensePage';
 import { connect } from 'react-redux';
 
 class App extends Component {
@@ -9,7 +9,7 @@ class App extends Component {
         return (
             <div>
                 {!this.props.isLogin && <LoginForm/>}
-                {this.props.isLogin && <HomePage/>}
+                {this.props.isLogin && <ExpensePage/>}
             </div>
         );
     }

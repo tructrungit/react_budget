@@ -11,8 +11,7 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 export const firebaseConnect = firebase.initializeApp(firebaseConfig);
-export const spendingData = firebase.database().ref('noteData');
-export const userData = firebase.database().ref('userData');
+export const expenseData = firebase.database().ref('expense');
 
 
 

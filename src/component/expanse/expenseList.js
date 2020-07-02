@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import { spendingData } from './firebaseConnect';
-import SpendingDetail from './spendingDetail';
+import { expenseData } from '../firebaseConnect';
+import ExpenseDetail from './expenseDetail';
 
-class SpendingList extends Component {
+class ExpenseList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -12,7 +12,7 @@ class SpendingList extends Component {
     }
 
     componentWillMount() {
-        spendingData.on('value', (notes) => {
+        expenseData.on('value', (notes) => {
             var arrayData = [];
             notes.forEach((item) => {
                 var data = {};
@@ -33,7 +33,7 @@ class SpendingList extends Component {
         if (this.state.data) {
             return this.state.data.map((value, key) => {
                 return (
-                    <SpendingDetail key={value.key} keyId={value.key} title={value.title} amount={value.amount} content={value.content} note={value} date={value.date}/>
+                    <ExpenseDetail key={value.key} keyId={value.key} title={value.title} amount={value.amount} content={value.content} note={value} date={value.date}/>
                 )
              })
         }
@@ -50,4 +50,4 @@ class SpendingList extends Component {
     }
 }
 
-export default SpendingList;
+export default ExpenseList;

@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import Menu from './menu'
+import Menu from '../menu'
 import { connect } from 'react-redux';
-import { CONSTANTS } from '../component/constants';
-import SpendingForm from './spendingForm';
-import SpendingList from './spendingList';
+import { CONSTANTS } from '../constants';
+import ExpenseForm from './expenseForm';
+import ExpenseList from './expenseList';
 
-class HomePage extends Component {
+class ExpensePage extends Component {
     loadHomePage() {
         return (
             <div>
@@ -13,16 +13,16 @@ class HomePage extends Component {
                 <div className="container">
                     <br/>
                     <div className="alert alert-info clearfix">
-                        <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0" style={{textTransform: 'uppercase'}}>Salary management</h2>
+                        <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0" style={{textTransform: 'uppercase'}}>Expense Management</h2>
                     </div>
                     <div className="clearfix">
-                        {this.props.isOpenForm && <SpendingForm/>}
+                        {this.props.isOpenForm && <ExpenseForm/>}
                     </div>
                     <div className="alert clearfix">
-                        {!this.props.isOpenForm && <button type="button" onClick={() => this.props.showHideNoteForm()} className="btn btn-primary btn-lg btn-block">Create Spending</button>}
+                        {!this.props.isOpenForm && <button type="button" onClick={() => this.props.showHideNoteForm()} className="btn btn-primary btn-lg btn-block">Create Expense Item</button>}
                     </div>
                     <div className="row">
-                        <SpendingList/>
+                        <ExpenseList/>
                     </div>
                 </div>
             </div>
@@ -40,16 +40,16 @@ class HomePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        isOpenForm: state.spendingReducer.isOpenForm,
+        isOpenForm: state.expenseReducer.isOpenForm,
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         showHideNoteForm: () => {
-            dispatch({type: CONSTANTS.CHANGE_FORM})
+            dispatch({type: CONSTANTS.CHANGE_EXPENSE_FORM})
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(ExpensePage);

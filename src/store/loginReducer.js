@@ -3,7 +3,7 @@ import { firebaseConnect } from "../component/firebaseConnect";
 
 const loginState = {
     user: '',
-    isLogin: false
+    isLogin: true
 }
 
 export const loginReducer = (state = loginState, action) => {
