@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { logOutAction } from '../action/userAction';
+import { Link } from "react-router-dom";
 
 class Menu extends Component {
     render() {
@@ -13,10 +14,10 @@ class Menu extends Component {
                 <div className="collapse navbar-collapse justify-content-end" id="collapsibleNavId">
                     <ul className="navbar-nav mt-2 mt-lg-0">
                         <li className="nav-item active">
-                            <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
+                            <Link className="nav-link" to="/">Home <span className="sr-only">(current)</span></Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/earning">View list</a>
+                            <Link className="nav-link" to="/earning">Earning</Link>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" onClick={() => {if(window.confirm('Are you sure you want to logout?'))this.props.logOutAction()}} href="#">Logout</a>

@@ -14,7 +14,6 @@ class ExpenseList extends Component {
             currentPage: 1,
             totalPage: 1
         }
-        
     }    
 
     componentWillMount() {

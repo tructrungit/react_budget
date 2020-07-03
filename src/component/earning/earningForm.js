@@ -1,21 +1,18 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { CONSTANTS } from '../constants';
-import moment from 'moment';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
+import moment from 'moment';
 import '../../css/form.css'
 
-
-
-class ExpenseForm extends Component {
+class EarningForm extends Component {
     constructor(props) {
         super(props);
         this.handleDayChange = this.handleDayChange.bind(this);
         this.state = {
             formTitle: this.props.editData.title || '',
             formAmount: this.props.editData.amount || '',
-            formContent: this.props.editData.content || '',
             formDate: this.props.editData.date || moment().format('YYYY-M-DD'),
             selectedDay: this.props.editData.date || moment().toDate()
         }
@@ -37,11 +34,10 @@ class ExpenseForm extends Component {
         });
     }
     
-    addData = (title, amount, content, date) => {
+    addData = (title, amount, date) => {
         let item = {};
         item.title = title;
         item.amount = amount;
-        item.content = content;
         item.date = date;
         if (this.props.isEdit) item.key = this.props.editData.key;
         this.props.addData(item);
@@ -54,7 +50,7 @@ class ExpenseForm extends Component {
                 <div className="form_main">
                 <h4 className="heading"><strong>{this.props.isEdit ? 'Edit' : 'Create'} </strong> Expense <span /></h4>
                 <div className="form">
-                    <form method="post" onSubmit={() => this.addData(this.state.formTitle, this.state.formAmount, this.state.formContent, this.state.formDate)}>
+                    <form method="post" onSubmit={() => this.addData(this.state.formTitle, this.state.formAmount, this.state.formDate)}>
                         <div className="form-group">
                             <label htmlFor="input-title" className="font-weight-bold">Title</label>
                             <input onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-title" aria-describedby="helpId"
@@ -66,13 +62,7 @@ class ExpenseForm extends Component {
                             <input onChange={(event) => this.changeForm(event)} type="number" min="0" id="input-amount" aria-describedby="helpId"
                                 name="formAmount" defaultValue={this.state.formAmount} required></input>
                             {/* <small id="formAmountHelp" className="form-text text-muted">Input amount of expense</small> */}
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="input-content" className="font-weight-bold">Conent</label>
-                            <textarea onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-content" aria-describedby="helpId"
-                                name="formContent" defaultValue={this.state.formContent}></textarea>
-                            {/* <small id="formContentHelp" className="form-text text-muted">Input content of expense</small> */}
-                        </div>         
+                        </div>       
                         <div className="form-group">           
                             <DayPickerInput
                                 value={this.state.selectedDay}
@@ -93,20 +83,23 @@ class ExpenseForm extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        isEdit: state.expenseReducer.isEdit,
-        editData: state.expenseReducer.editData
+        isEdit: state.earningReducer.isEdit,
+        editData: state.earningReducer.editData
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         addData: (item) => {
-            dispatch({type: CONSTANTS.ADD_EXPENSE, data: item})
+            dispatch({type: CONSTANTS.ADD_MONTHLY_EARNING, data: item})
         },
         showHideNoteForm: () => {
             dispatch({type: CONSTANTS.CHANGE_EXPENSE_FORM})
+        },
+        deleteData: (keyData) => {
+            dispatch({type: CONSTANTS.DELETE_MONTHLY_EARNING, keyData})
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExpenseForm);
+export default connect(mapStateToProps, mapDispatchToProps)(EarningForm);

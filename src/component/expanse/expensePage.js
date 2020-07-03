@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import Menu from '../menu'
 import { connect } from 'react-redux';
 import { CONSTANTS } from '../constants';
 import ExpenseForm from './expenseForm';
 import ExpenseList from './expenseList';
 
 class ExpensePage extends Component {
-    loadHomePage() {
+    render() {
         return (
             <div>
                 <div className="container">
@@ -24,14 +23,6 @@ class ExpensePage extends Component {
                         <ExpenseList/>
                     </div>
                 </div>
-            </div>
-        )
-    }
-
-    render() {
-        return (
-            <div>
-                {this.loadHomePage()}
             </div>
         )
     }
