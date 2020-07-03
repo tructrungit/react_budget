@@ -13,10 +13,10 @@ class Menu extends Component {
                 <div className="collapse navbar-collapse justify-content-end" id="collapsibleNavId">
                     <ul className="navbar-nav mt-2 mt-lg-0">
                         <li className="nav-item active">
-                            <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
+                            <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">View list</a>
+                            <a className="nav-link" href="/earning">View list</a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" onClick={() => {if(window.confirm('Are you sure you want to logout?'))this.props.logOutAction()}} href="#">Logout</a>

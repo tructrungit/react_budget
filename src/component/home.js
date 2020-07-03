@@ -1,22 +1,15 @@
 import React, { Component } from 'react'
 import Menu from './menu'
-import ExpensePage from './expanse/expensePage'
+import RouterURL from '../router/RouterURL'
+// import { Router } from 'react-router-dom'
 
 class HomePage extends Component {
-    loadHomePage() {
-        return (
-            <div>
-                <Menu/>
-                <ExpensePage/>
-            </div>
-        )
-    }
-
     render() {
         return (
-            <div>
-                {this.loadHomePage()}
-            </div>
+                <div>
+                    <Menu/>
+                    <RouterURL/>
+                </div>
         )
     }
 }
