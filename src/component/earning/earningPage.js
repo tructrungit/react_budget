@@ -5,6 +5,7 @@ import EarningForm from './earningForm';
 import { connect } from 'react-redux';
 import { CONSTANTS } from '../constants';
 import moment from 'moment';
+import { getMonthlyEarning } from '../../action/earningAction';
 
 class EarningPage extends Component {
     constructor(props) {
@@ -29,11 +30,10 @@ class EarningPage extends Component {
                 totalSalary += Number(item.val());
             })
             this.setState({totalSalary})
-        })
+        })        
 
         monthlyEarning.orderByChild("date").equalTo(moment().format('YYYY-MM')).on("child_added", (data) => {
             this.setState({monthlyEarning: data.val()})
-            console.log("Equal to filter: " + data.val());
          });
     }
 
@@ -72,6 +72,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         addMonthlyEarning: (data) => {
             dispatch({type: CONSTANTS.ADD_MONTHLY_EARNING, data})
+        },
+        getMonthlyEarnings: () => {
+            dispatch(getMonthlyEarning())
         }
     }
 }

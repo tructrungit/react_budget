@@ -1,23 +1,21 @@
-import { CONSTANTS } from "../component/constants";
-import { salary } from "../component/firebaseConnect";
+import { monthlyEarning } from "../component/firebaseConnect";
 import moment from 'moment';
 
-export const addMonthlyEarning = (earning) => ({
-    type: CONSTANTS.ADD_EARNING,
-    earning,
-});
+// export const addMonthlyEarning = (earning) => ({
+//     type: CONSTANTS.ADD_EARNING,
+//     earning,
+// });
 
-export const getSalary = () => async dispatch => {
+export const getMonthlyEarning = () => async dispatch => {
     try {
-        let month = moment(new Date()).format("YYYY-MM");
-        let salaries = await salary.on('value');
-        console.log(salaries);
-        // dispatch(addMonthlyEarning(salaries));
+        console.log('getMonthlyEarning');
+        let monthlyEarningData = {};
+        await monthlyEarning.orderByChild("date").equalTo(moment().format('YYYY-MM')).on("child_added", (data) => {
+            monthlyEarningData = data.val();
+        });
+        return monthlyEarningData;
     } catch (error) {
         console.log(error);
+        return {};
     }
 }
-
-export const logOutAction = () => ({
-    type: CONSTANTS.LOG_OUT
-})
