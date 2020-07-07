@@ -17,6 +17,9 @@ class Menu extends Component {
                             <Link className="nav-link" to="/">Home <span className="sr-only">(current)</span></Link>
                         </li>
                         <li className="nav-item">
+                            <Link className="nav-link" to="/expense">Expense</Link>
+                        </li>
+                        <li className="nav-item">
                             <Link className="nav-link" to="/earning">Earning</Link>
                         </li>
                         <li className="nav-item">
