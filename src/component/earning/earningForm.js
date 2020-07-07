@@ -88,13 +88,13 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         addData: (item) => {
-            dispatch({type: CONSTANTS.ADD_MONTHLY_EARNING, data: item})
+            dispatch({type: CONSTANTS.ADD_EARNING, data: item})
         },
         showHideEarningForm: () => {
             dispatch({type: CONSTANTS.CHANGE_EARNING_FORM})
         },
         deleteData: (keyData) => {
-            dispatch({type: CONSTANTS.DELETE_MONTHLY_EARNING, keyData})
+            dispatch({type: CONSTANTS.DELETE_EARNING, keyData})
         }
     }
 }

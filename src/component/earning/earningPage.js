@@ -1,16 +1,25 @@
 import React, { Component } from 'react'
-import { salary } from '../firebaseConnect'
+import { salary, monthlyEarning } from '../firebaseConnect'
 import EarningList from './earningList';
 import EarningForm from './earningForm';
 import { connect } from 'react-redux';
 import { CONSTANTS } from '../constants';
+import moment from 'moment';
 
 class EarningPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            totalSalary: 0
+            totalSalary: 0,
+            monthlyEarning: {}
         }
+    }
+
+    addMonthlyEarning() {
+        let data = {};
+        data.totalSalary = this.state.totalSalary;
+        data.date = moment().format('YYYY-MM');
+        this.props.addMonthlyEarning(data);
     }
 
     UNSAFE_componentWillMount() {
@@ -21,6 +30,11 @@ class EarningPage extends Component {
             })
             this.setState({totalSalary})
         })
+
+        monthlyEarning.orderByChild("date").equalTo(moment().format('YYYY-MM')).on("child_added", (data) => {
+            this.setState({monthlyEarning: data.val()})
+            console.log("Equal to filter: " + data.val());
+         });
     }
 
     render() {
@@ -35,6 +49,7 @@ class EarningPage extends Component {
                 </div>
                 <div className="alert clearfix">
                     {!this.props.isOpenForm && <button type="button" onClick={() => this.props.showHideEarningForm()} className="btn btn-primary btn-lg btn-block">Create Earning Item</button>}
+                    {!this.props.isOpenForm && !this.state.monthlyEarning.date && <button type="button" onClick={() => this.addMonthlyEarning()} className="btn btn-warning btn-lg btn-block">Create Monthly Earning Item</button>}
                 </div>
                 <div className="row">
                     <EarningList/>
@@ -54,6 +69,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         showHideEarningForm: () => {
             dispatch({type: CONSTANTS.CHANGE_EARNING_FORM})
+        },
+        addMonthlyEarning: (data) => {
+            dispatch({type: CONSTANTS.ADD_MONTHLY_EARNING, data})
         }
     }
 }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { monthlyEarning } from '../firebaseConnect';
+import { earningData } from '../firebaseConnect';
 import Pagination from "react-pagination-library";
 import "react-pagination-library/build/css/index.css"; //for css
 import { CONSTANTS } from '../constants';
@@ -33,7 +33,7 @@ class EarningList extends Component {
     }
 
     UNSAFE_componentWillMount() {
-        monthlyEarning.on('value', (notes) => {
+        earningData.on('value', (notes) => {
             var originalData = [];
             var showData = [];
             var totalPage = 1;
@@ -145,10 +145,10 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         deleteData: (keyData) => {
-            dispatch({type: CONSTANTS.DELETE_MONTHLY_EARNING, keyData})
+            dispatch({type: CONSTANTS.DELETE_EARNING, keyData})
         },
         editData: (editData) => {
-            dispatch({type: CONSTANTS.GET_EDIT_MONTHLY_EARNING_DATA, editData})
+            dispatch({type: CONSTANTS.GET_EDIT_EARNING_DATA, editData})
         },
         showHideEarningForm: () => {
             dispatch({type: CONSTANTS.CHANGE_EARNING_FORM})

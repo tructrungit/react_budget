@@ -3,7 +3,7 @@ import { salary } from "../component/firebaseConnect";
 import moment from 'moment';
 
 export const addMonthlyEarning = (earning) => ({
-    type: CONSTANTS.ADD_MONTHLY_EARNING,
+    type: CONSTANTS.ADD_EARNING,
     earning,
 });
 
