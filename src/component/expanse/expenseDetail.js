@@ -11,7 +11,7 @@ class ExpenseDetail extends Component {
 
     formatAmount(amount) {
         if (!amount) amount = 0;
-        return parseInt(amount).toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+        return Number(amount).toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
     }
 
     render() {

@@ -17,7 +17,7 @@ class ExpensePage extends Component {
                         {this.props.isOpenForm && <ExpenseForm/>}
                     </div>
                     <div className="alert clearfix">
-                        {!this.props.isOpenForm && <button type="button" onClick={() => this.props.showHideNoteForm()} className="btn btn-primary btn-lg btn-block">Create Expense Item</button>}
+                        {!this.props.isOpenForm && <button type="button" onClick={() => this.props.showHideExpanseForm()} className="btn btn-primary btn-lg btn-block">Create Expense Item</button>}
                     </div>
                     <div className="row">
                         <ExpenseList/>
@@ -36,7 +36,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        showHideNoteForm: () => {
+        showHideExpanseForm: () => {
             dispatch({type: CONSTANTS.CHANGE_EXPENSE_FORM})
         }
     }

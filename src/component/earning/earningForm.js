@@ -41,38 +41,35 @@ class EarningForm extends Component {
         item.date = date;
         if (this.props.isEdit) item.key = this.props.editData.key;
         this.props.addData(item);
-        this.props.showHideNoteForm();
+        this.props.showHideEarningForm();
     }
 
     render() {
         return (
             <div className="col-md-12">
                 <div className="form_main">
-                <h4 className="heading"><strong>{this.props.isEdit ? 'Edit' : 'Create'} </strong> Expense <span /></h4>
+                <h4 className="heading"><strong>{this.props.isEdit ? 'Edit' : 'Create'} </strong> Earning <span /></h4>
                 <div className="form">
                     <form method="post" onSubmit={() => this.addData(this.state.formTitle, this.state.formAmount, this.state.formDate)}>
                         <div className="form-group">
                             <label htmlFor="input-title" className="font-weight-bold">Title</label>
                             <input onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-title" aria-describedby="helpId"
                                 name="formTitle"  defaultValue={this.state.formTitle} required></input>
-                            {/* <small id="formTitleHelp" className="form-text text-muted">Input title of expense</small> */}
                         </div>
                         <div className="form-group">
                             <label htmlFor="input-amount" className="font-weight-bold">Amount</label>
                             <input onChange={(event) => this.changeForm(event)} type="number" min="0" id="input-amount" aria-describedby="helpId"
                                 name="formAmount" defaultValue={this.state.formAmount} required></input>
-                            {/* <small id="formAmountHelp" className="form-text text-muted">Input amount of expense</small> */}
                         </div>       
                         <div className="form-group">           
                             <DayPickerInput
                                 value={this.state.selectedDay}
                                 onDayChange={this.handleDayChange}
                             />
-                            {/* <small id="formDateHelp" className="form-text text-muted">Select date of expense</small> */}
                         </div>    
                         <br/>
                         <button className="txt2" type="submit" >Save</button>
-                        <button onClick={() => this.props.showHideNoteForm()} className="txt2 btn-info" type="button" >Cancel</button>
+                        <button onClick={() => this.props.showHideEarningForm()} className="txt2 btn-info" type="button" >Cancel</button>
                     </form>
                 </div>
                 </div>
@@ -93,8 +90,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         addData: (item) => {
             dispatch({type: CONSTANTS.ADD_MONTHLY_EARNING, data: item})
         },
-        showHideNoteForm: () => {
-            dispatch({type: CONSTANTS.CHANGE_EXPENSE_FORM})
+        showHideEarningForm: () => {
+            dispatch({type: CONSTANTS.CHANGE_EARNING_FORM})
         },
         deleteData: (keyData) => {
             dispatch({type: CONSTANTS.DELETE_MONTHLY_EARNING, keyData})

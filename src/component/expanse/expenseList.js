@@ -16,7 +16,7 @@ class ExpenseList extends Component {
         }
     }    
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         expenseData.on('value', (notes) => {
             var originalData = [];
             var showData = [];
@@ -54,8 +54,8 @@ class ExpenseList extends Component {
         })
     }
 
-    componentWillUpdate(nextProps, nextState) {
-        if (this.state.originalData != nextState.originalData) nextState.currentPage = 1;
+    UNSAFE_componentWillUpdate(nextProps, nextState) {
+        if (this.state.originalData !== nextState.originalData) nextState.currentPage = 1;
     }
 
     changeCurrentPage = numPage => {

@@ -1,5 +1,4 @@
 import { CONSTANTS } from "../component/constants";
-import { firebaseConnect } from "../component/firebaseConnect";
 
 const loginState = {
     user: '',

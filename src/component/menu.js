@@ -13,7 +13,7 @@ class Menu extends Component {
                         aria-label="Toggle navigation"/>
                 <div className="collapse navbar-collapse justify-content-end" id="collapsibleNavId">
                     <ul className="navbar-nav mt-2 mt-lg-0">
-                        <li className="nav-item active">
+                        <li className="nav-item">
                             <Link className="nav-link" to="/">Home <span className="sr-only">(current)</span></Link>
                         </li>
                         <li className="nav-item">

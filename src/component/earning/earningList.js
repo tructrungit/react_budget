@@ -4,9 +4,7 @@ import { monthlyEarning } from '../firebaseConnect';
 import Pagination from "react-pagination-library";
 import "react-pagination-library/build/css/index.css"; //for css
 import { CONSTANTS } from '../constants';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
-import moment from 'moment';
 
 class EarningList extends Component {
     constructor(props) {
@@ -19,6 +17,12 @@ class EarningList extends Component {
             totalPage: 1,
         }
     }
+
+    edit(value) {
+        this.props.editData(value);
+        this.props.showHideEarningForm();
+        window.scrollTo(0, 0)
+    }
     
     handleDayChange(selectedDay, modifiers, dayPickerInput) {
         let input = dayPickerInput.getInput();
@@ -28,7 +32,7 @@ class EarningList extends Component {
         });
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         monthlyEarning.on('value', (notes) => {
             var originalData = [];
             var showData = [];
@@ -66,8 +70,8 @@ class EarningList extends Component {
         })
     }
 
-    componentWillUpdate(nextProps, nextState) {
-        if (this.state.originalData != nextState.originalData) nextState.currentPage = 1;
+    UNSAFE_componentWillUpdate(nextProps, nextState) {
+        if (this.state.originalData !== nextState.originalData) nextState.currentPage = 1;
     }
 
     changeCurrentPage = numPage => {
@@ -93,6 +97,7 @@ class EarningList extends Component {
                         <td>
                             {/* {!this.state.isEdit && <input type="button" className="btn btn-outline-warning" value="Edit" 
                                 onClick={() => this.edit(value.key, value.title, value.amount, value.date)}/>} */}
+                            {!this.props.isEdit && !this.props.isOpenForm && <input type="button" className="btn btn-outline-warning" value="Edit" onClick={() => this.edit(value)}/>}
                             <input type="button" className="btn btn-outline-danger" 
                                 value="Delete" onClick={() => {if(window.confirm('Delete the item?'))this.props.deleteData(value.key)}}/>
                         </td>
@@ -131,17 +136,23 @@ class EarningList extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    return {}
+    return {
+        isOpenForm: state.earningReducer.isOpenForm,
+        isEdit: state.earningReducer.isEdit,
+    }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        addData: (item) => {
-            dispatch({type: CONSTANTS.ADD_MONTHLY_EARNING, data: item})
-        },
         deleteData: (keyData) => {
             dispatch({type: CONSTANTS.DELETE_MONTHLY_EARNING, keyData})
-        }
+        },
+        editData: (editData) => {
+            dispatch({type: CONSTANTS.GET_EDIT_MONTHLY_EARNING_DATA, editData})
+        },
+        showHideEarningForm: () => {
+            dispatch({type: CONSTANTS.CHANGE_EARNING_FORM})
+        },
     }
 }
 
