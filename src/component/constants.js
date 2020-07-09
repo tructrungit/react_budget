@@ -1,4 +1,6 @@
 export const CONSTANTS = {
+    // Date format
+    DAY_FORMAT: 'YYYY-MM-DD',
     // Pagnition
     ITEM_PER_PAGE: 5,
     // Login
@@ -41,6 +43,10 @@ export const CONSTANTS = {
         {
           title: 'Amount',
           dataIndex: 'amount',
+          sorter: {
+            compare: (a, b) => a.amount - b.amount,
+            multiple: 2,
+          },
         },
         {
           title: 'Content',

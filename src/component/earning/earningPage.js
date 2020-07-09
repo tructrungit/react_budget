@@ -16,10 +16,16 @@ class EarningPage extends Component {
     }
 
     addMonthlyEarning() {
-        let data = {};
-        data.totalSalary = this.state.totalSalary;
-        data.date = moment().format('YYYY-MM');
-        data.milliseconds = moment(data.date).valueOf();
+        let data = {monthLyEarning: {}, earning: {}};
+        // monthLyEarning
+        data.monthLyEarning.totalSalary = this.state.totalSalary;
+        data.monthLyEarning.date = moment().format('YYYY-MM');
+        data.monthLyEarning.milliseconds = moment(data.date).valueOf();
+        // earning
+        data.earning.title = 'Salary per month';
+        data.earning.amount = this.state.totalSalary;
+        data.earning.date = moment().format('YYYY-MM-DD');
+        data.earning.milliseconds = moment(data.earning.date).valueOf();
         this.props.addMonthlyEarning(data);
     }
 

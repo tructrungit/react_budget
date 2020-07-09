@@ -7,8 +7,10 @@ import { CONSTANTS } from '../constants';
 class ReportingDetail extends Component {
     header() {
       return (
-        <div className="text-center">
-            Total Income: {this.props.totalEarning} - Total Expense: {this.props.totalExpense} = <b>Remaining: {this.props.totalEarning - this.props.totalExpense}</b>
+        <div>
+            - Total Income: {this.props.totalEarning} <br/> 
+            - Total Expense: {this.props.totalExpense} <br/>
+            <b>- Remaining: {this.props.totalEarning - this.props.totalExpense}</b>
         </div>
       )
     }

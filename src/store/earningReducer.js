@@ -37,7 +37,8 @@ export const earningReducer = (state = earningState, action) => {
             return {...state}
         // monthlyEarning
         case CONSTANTS.ADD_MONTHLY_EARNING:
-            monthlyEarning.push(action.data)
+            monthlyEarning.push(action.data.monthLyEarning)
+            earningData.push(action.data.earning)
             return state
         case CONSTANTS.GET_MONTHLY_EARNING:
             return {...state, monthlyData: action.data}

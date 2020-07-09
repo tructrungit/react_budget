@@ -7,20 +7,10 @@ export const loadExpenseDataByMonth = (data) => ({
     data,
 });
 
-export const loadEarningDataByMonth = (data) => ({
-    type: CONSTANTS.GET_EARNING_DATA_BY_MONTH,
-    data,
-});
-
-export const loadMonthlyEarning = (data) => ({
-    type: CONSTANTS.GET_MONTHLY_EARNING,
-    data,
-});
-
 export const getExpenseDataByMonth = (pickedDate) => async dispatch => {
     try {
-        let startAt = moment(pickedDate, 'YYYY-MM-DD HH:mm').startOf('month').valueOf();
-        let endAt = moment(pickedDate, 'YYYY-MM-DD HH:mm').endOf('month').valueOf();
+        let startAt = moment(pickedDate[0], 'YYYY-MM-DD HH:mm').startOf('day').valueOf();
+        let endAt = moment(pickedDate[1], 'YYYY-MM-DD HH:mm').endOf('day').valueOf();
         let expenseDataByMonth = [];
         expenseData.orderByChild("milliseconds").startAt(startAt).endAt(endAt).on("value", (data) => {
             data.forEach((item) => {
@@ -40,10 +30,15 @@ export const getExpenseDataByMonth = (pickedDate) => async dispatch => {
     }
 }
 
+export const loadEarningDataByMonth = (data) => ({
+    type: CONSTANTS.GET_EARNING_DATA_BY_MONTH,
+    data,
+});
+
 export const getEarningDataByMonth = (pickedDate) => async dispatch => {
     try {
-        let startAt = moment(pickedDate, 'YYYY-MM-DD HH:mm').startOf('month').valueOf();
-        let endAt = moment(pickedDate, 'YYYY-MM-DD HH:mm').endOf('month').valueOf();
+        let startAt = moment(pickedDate[0], 'YYYY-MM-DD HH:mm').startOf('day').valueOf();
+        let endAt = moment(pickedDate[1], 'YYYY-MM-DD HH:mm').endOf('day').valueOf();
         let earningDataByMonth = [];
         earningData.orderByChild("milliseconds").startAt(startAt).endAt(endAt).on("value", (data) => {
             data.forEach((item) => {
@@ -62,9 +57,15 @@ export const getEarningDataByMonth = (pickedDate) => async dispatch => {
     }
 }
 
+// TODO: will use function at other time
+export const loadMonthlyEarning = (data) => ({
+    type: CONSTANTS.GET_MONTHLY_EARNING,
+    data,
+});
+
 export const getMonthlyEarning = (pickedDate) => async dispatch => {
     try {
-        let milliseconds = moment(pickedDate).valueOf();
+        let milliseconds = moment(pickedDate[0]).valueOf();
         await monthlyEarning.orderByChild("milliseconds").equalTo(milliseconds).on("value", (data) => {
             if (data.length === 1) {
                 dispatch(loadMonthlyEarning(data[0].val()));

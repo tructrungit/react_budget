@@ -5,15 +5,14 @@ import 'antd/dist/antd.css';
 import moment from 'moment';
 import { CONSTANTS } from '../constants';
 import ReportingDetail from './reportingDetail';
-import { getExpenseDataByMonth, getMonthlyEarning, getEarningDataByMonth } from '../../action/reportingAction';
-const { MonthPicker } = DatePicker
+import { getExpenseDataByMonth, getEarningDataByMonth } from '../../action/reportingAction';
+const { RangePicker } = DatePicker
 
 class ReportingPage extends Component {
     UNSAFE_componentWillMount() {
         this.props.updateIsLoading(true);
         this.props.getExpenseDataByMonth(this.props.pickedDate);
         this.props.getEarningDataByMonth(this.props.pickedDate);
-        this.props.getMonthlyEarning(this.props.pickedDate);
     }
 
     handleDayChange(date, dateString) {
@@ -22,7 +21,6 @@ class ReportingPage extends Component {
             this.props.updatePickedDay(dateString);
             this.props.getExpenseDataByMonth(dateString);
             this.props.getEarningDataByMonth(dateString);
-            this.props.getMonthlyEarning(dateString);
         }
     }
 
@@ -31,8 +29,7 @@ class ReportingPage extends Component {
     }
 
     getTotalEarning() {
-        let earning = this.props.earningData.reduce((accumulator, item) => accumulator + Number(item.amount), 0);
-        return earning + Number((this.props.monthlyEarningData.totalSalary || 0))
+        return this.props.earningData.reduce((accumulator, item) => accumulator + Number(item.amount), 0);
     }
 
     loadSpin() {
@@ -55,14 +52,14 @@ class ReportingPage extends Component {
                 <div className="container">
                     <br/>
                     <div className="alert alert-info clearfix">
-                        <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0" style={{textTransform: 'uppercase'}}>Reporting {this.props.pickedDate}</h2>
+                        <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0" style={{textTransform: 'uppercase'}}>Reporting From {this.props.pickedDate[0]} To {this.props.pickedDate[1]}</h2>
                     </div>
                     <div className="col clearfix">
-                        <MonthPicker
+                        <RangePicker
                             onChange={(date, dateString) => this.handleDayChange(date, dateString)}
-                            defaultValue={moment(new Date(), CONSTANTS.MONTH_FORMAT)}
-                            format={CONSTANTS.MONTH_FORMAT}
-                        />
+                            defaultValue={[moment(new Date(), CONSTANTS.MONTH_FORMAT).subtract(1, 'months'), moment(new Date(), CONSTANTS.MONTH_FORMAT)]}
+                            format={[CONSTANTS.DAY_FORMAT, CONSTANTS.DAY_FORMAT]}
+                            />
                     </div>
                     {this.props.isLoading && this.loadSpin()}
                     <br/>
@@ -82,7 +79,6 @@ const mapStateToProps = (state, ownProps) => {
         pickedDate: state.reportingReducer.pickedDate,
         expenseData: state.reportingReducer.expenseData,
         earningData: state.reportingReducer.earningData,
-        monthlyEarningData: state.reportingReducer.monthlyEarningData,
         isLoading: state.reportingReducer.isLoading
     }
   }
@@ -97,9 +93,6 @@ const mapStateToProps = (state, ownProps) => {
         },
         getEarningDataByMonth: (pickedDate) => {
             dispatch(getEarningDataByMonth(pickedDate))
-        },
-        getMonthlyEarning: (pickedDate) => {
-            dispatch(getMonthlyEarning(pickedDate))
         },
         updateIsLoading: (status) => {
             dispatch({type: CONSTANTS.UPDATE_IS_LOADING, status})

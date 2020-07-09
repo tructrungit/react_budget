@@ -3,7 +3,7 @@ import moment from 'moment';
 
 const reportingState = {
     isLoading: false,
-    pickedDate: moment().format('YYYY-M'),
+    pickedDate: [moment(new Date()).subtract(1, 'months').format(CONSTANTS.DAY_FORMAT), moment(new Date()).format(CONSTANTS.DAY_FORMAT)],
     expenseData: [],
     earningData: [],
     monthlyEarningData: {}
