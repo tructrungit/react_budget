@@ -4,29 +4,6 @@ import { Table } from 'antd';
 import 'antd/dist/antd.css';
 import { CONSTANTS } from '../constants';
 
-const columns = [
-    {
-      title: 'Title',
-      dataIndex: 'title',
-    },
-    {
-      title: 'Date',
-      dataIndex: 'date',
-      sorter: {
-        compare: (a, b) => new Date(a.date) - new Date(b.date),
-        multiple: 2,
-      },
-    },
-    {
-      title: 'Amount',
-      dataIndex: 'amount',
-    },
-    {
-      title: 'Content',
-      dataIndex: 'content',
-    },
-  ];
-
 class ReportingDetail extends Component {
     header() {
       return (
@@ -44,7 +21,7 @@ class ReportingDetail extends Component {
         return (
             <div className="col">
                 <Table 
-                    columns={columns} 
+                    columns={CONSTANTS.REPORT_COLUMNS} 
                     dataSource={this.props.monthlyData}
                     pagination={{ position: ['topCenter', 'bottomCenter'] }}
                     bordered

@@ -23,5 +23,28 @@ export const CONSTANTS = {
     GET_EARNING_DATA_BY_MONTH: 'GET_EARNING_DATA_BY_MONTH',
     GET_MONTHLY_EARNING: 'GET_MONTHLY_EARNING',
     UPDATE_IS_LOADING: 'UPDATE_IS_LOADING',
-    UPDATE_PICKED_DAY: 'UPDATE_PICKED_DAY'
+    UPDATE_PICKED_DAY: 'UPDATE_PICKED_DAY',
+    // Table columns
+    REPORT_COLUMNS: [
+        {
+          title: 'Title',
+          dataIndex: 'title',
+        },
+        {
+          title: 'Date',
+          dataIndex: 'date',
+          sorter: {
+            compare: (a, b) => new Date(a.date) - new Date(b.date),
+            multiple: 2,
+          },
+        },
+        {
+          title: 'Amount',
+          dataIndex: 'amount',
+        },
+        {
+          title: 'Content',
+          dataIndex: 'content',
+        },
+      ],
 }
