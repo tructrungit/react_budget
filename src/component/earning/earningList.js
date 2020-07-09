@@ -6,6 +6,7 @@ import { CONSTANTS } from '../constants';
 import 'react-day-picker/lib/style.css';
 import { Table } from 'antd';
 import 'antd/dist/antd.css';
+import { UTILS } from '../componentUtils';
 
 class EarningList extends Component {
     constructor(props) {
@@ -31,7 +32,7 @@ class EarningList extends Component {
         },
         {
             title: 'Amount',
-            dataIndex: 'amount',
+            dataIndex: 'amountByCurrency',
             sorter: {
                 compare: (a, b) => a.amount - b.amount,
                 multiple: 2,
@@ -67,7 +68,6 @@ class EarningList extends Component {
     UNSAFE_componentWillMount() {
         earningData.on('value', (notes) => {
             var originalData = [];
-            var totalPage = 1;
             // load data by firebase
             notes.forEach((item) => {
                 var data = {};
@@ -75,6 +75,7 @@ class EarningList extends Component {
                 data.title = item.val().title;
                 data.date = item.val().date;
                 data.amount = item.val().amount;
+                data.amountByCurrency = UTILS.FORMAT_AMOUNT(item.val().amount);
                 originalData.push(data);
             });
             // sort data by date

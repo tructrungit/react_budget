@@ -37,7 +37,7 @@ class EarningForm extends Component {
     addData = (title, amount, date) => {
         let item = {};
         item.title = title;
-        item.amount = amount;
+        item.amount = amount * 1000;
         item.date = date;
         if (this.props.isEdit) item.key = this.props.editData.key;
         this.props.addData(item);
@@ -60,6 +60,7 @@ class EarningForm extends Component {
                             <label htmlFor="input-amount" className="font-weight-bold">Amount</label>
                             <input onChange={(event) => this.changeForm(event)} type="number" min="0" id="input-amount" aria-describedby="helpId"
                                 name="formAmount" defaultValue={this.state.formAmount} required></input>
+                            <small id="formAmountHelp" className="form-text text-muted">Amount will auto multiple 1000, ex: your input 100 == 100.000</small>
                         </div>       
                         <div className="form-group">           
                             <DayPickerInput

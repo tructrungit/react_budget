@@ -40,7 +40,7 @@ class ExpenseForm extends Component {
     addData = (title, amount, content, date) => {
         let item = {};
         item.title = title;
-        item.amount = amount;
+        item.amount = amount * 1000;
         item.content = content;
         item.date = date;
         if (this.props.isEdit) item.key = this.props.editData.key;
@@ -64,8 +64,8 @@ class ExpenseForm extends Component {
                         <div className="form-group">
                             <label htmlFor="input-amount" className="font-weight-bold">Amount</label>
                             <input onChange={(event) => this.changeForm(event)} type="number" min="0" id="input-amount" aria-describedby="helpId"
-                                name="formAmount" defaultValue={this.state.formAmount} required></input>
-                            {/* <small id="formAmountHelp" className="form-text text-muted">Input amount of expense</small> */}
+                                name="formAmount" defaultValue={this.state.formAmount} required ></input>
+                            <small id="formAmountHelp" className="form-text text-muted">Amount will auto multiple 1000, ex: your input 100 == 100.000</small>
                         </div>
                         <div className="form-group">
                             <label htmlFor="input-content" className="font-weight-bold">Conent</label>

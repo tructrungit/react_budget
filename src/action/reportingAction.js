@@ -1,6 +1,7 @@
 import { expenseData, monthlyEarning, earningData } from "../component/firebaseConnect";
 import moment from 'moment';
 import { CONSTANTS } from "../component/constants";
+import { UTILS } from "../component/componentUtils";
 
 export const loadExpenseDataByMonth = (data) => ({
     type: CONSTANTS.GET_EXPENSE_DATA_BY_MONTH,
@@ -18,6 +19,7 @@ export const getExpenseDataByMonth = (pickedDate) => async dispatch => {
                 data.key = item.key;
                 data.title = item.val().title;
                 data.amount = item.val().amount;
+                data.amountByCurrency = UTILS.FORMAT_AMOUNT(item.val().amount);
                 data.content = item.val().content;
                 data.date = item.val().date;
                 expenseDataByMonth.push(data);
@@ -46,6 +48,7 @@ export const getEarningDataByMonth = (pickedDate) => async dispatch => {
                 data.key = item.key;
                 data.title = item.val().title;
                 data.amount = item.val().amount;
+                data.amountByCurrency = UTILS.FORMAT_AMOUNT(item.val().amount);
                 data.date = item.val().date;
                 earningDataByMonth.push(data);
             })
