@@ -1,22 +1,54 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { earningData } from '../firebaseConnect';
-import Pagination from "react-pagination-library";
-import "react-pagination-library/build/css/index.css"; //for css
+import "react-pagination-library/build/css/index.css";
 import { CONSTANTS } from '../constants';
 import 'react-day-picker/lib/style.css';
+import { Table } from 'antd';
+import 'antd/dist/antd.css';
 
 class EarningList extends Component {
     constructor(props) {
         super(props);
         this.handleDayChange = this.handleDayChange.bind(this);
         this.state = {
-            originalData: [],
-            showData: [],
-            currentPage: 1,
-            totalPage: 1,
+            originalData: []
         }
     }
+    
+    EARNING_COLUMNS = [
+        {
+            title: 'Title',
+            dataIndex: 'title',
+        },
+        {
+            title: 'Date',
+            dataIndex: 'date',
+            sorter: {
+                compare: (a, b) => new Date(a.date) - new Date(b.date),
+                multiple: 2,
+            },
+        },
+        {
+            title: 'Amount',
+            dataIndex: 'amount',
+            sorter: {
+                compare: (a, b) => a.amount - b.amount,
+                multiple: 2,
+            },
+        },
+        {
+            title: 'Action',
+            dataIndex: '',
+            key: 'x',
+            render: (text, record) => (
+                <div>
+                    {!this.props.isEdit && !this.props.isOpenForm && <input type="button" className="btn btn-outline-warning" value="Edit" onClick={() => this.edit(record)}/>}	&nbsp;
+                    <input type="button" className="btn btn-outline-danger" value="Delete" onClick={() => {if(window.confirm('Delete the item?'))this.props.deleteData(record.key)}}/>
+                </div>
+            ),
+        },
+      ]
 
     edit(value) {
         this.props.editData(value);
@@ -35,7 +67,6 @@ class EarningList extends Component {
     UNSAFE_componentWillMount() {
         earningData.on('value', (notes) => {
             var originalData = [];
-            var showData = [];
             var totalPage = 1;
             // load data by firebase
             notes.forEach((item) => {
@@ -50,85 +81,20 @@ class EarningList extends Component {
             originalData = originalData.sort((a,b) => {
                 return new Date(b.date) - new Date(a.date);
             });
-            // load showData by ITEM_PER_PAGE
-            let end = originalData.length < CONSTANTS.ITEM_PER_PAGE ? originalData.length : CONSTANTS.ITEM_PER_PAGE;
-            for (let i = 0; i < end; i++) {
-                showData.push(originalData[i]);
-            }
-            // get totalPage
-            if (originalData.length % CONSTANTS.ITEM_PER_PAGE) {
-                totalPage = ~~(originalData.length / CONSTANTS.ITEM_PER_PAGE) + 1;
-            } else {
-                totalPage = (originalData.length / CONSTANTS.ITEM_PER_PAGE);
-            }
-
             this.setState({
-                originalData,
-                showData,
-                totalPage
+                originalData
             })
         })
-    }
-
-    UNSAFE_componentWillUpdate(nextProps, nextState) {
-        if (this.state.originalData !== nextState.originalData) nextState.currentPage = 1;
-    }
-
-    changeCurrentPage = numPage => {
-        let showData = [];
-        let start = (numPage - 1) * CONSTANTS.ITEM_PER_PAGE;
-        let end = (start + CONSTANTS.ITEM_PER_PAGE) < this.state.originalData.length ? start + CONSTANTS.ITEM_PER_PAGE : this.state.originalData.length;
-        for (let i = start; i < end; i++) {
-            showData.push(this.state.originalData[i]);
-        }
-        this.setState({ currentPage: numPage, showData: showData });
-    };
-
-
-    loadData() {
-        if (this.state.showData) {
-            return this.state.showData.map((value, key) => {
-                return (
-                    <tr key={value.key}>
-                        <th scope="row">{key+1}</th>
-                        <td>{value.title}</td>
-                        <td>{value.date}</td>
-                        <td>{value.amount}</td>
-                        <td>
-                            {/* {!this.state.isEdit && <input type="button" className="btn btn-outline-warning" value="Edit" 
-                                onClick={() => this.edit(value.key, value.title, value.amount, value.date)}/>} */}
-                            {!this.props.isEdit && !this.props.isOpenForm && <input type="button" className="btn btn-outline-warning" value="Edit" onClick={() => this.edit(value)}/>}
-                            <input type="button" className="btn btn-outline-danger" 
-                                value="Delete" onClick={() => {if(window.confirm('Delete the item?'))this.props.deleteData(value.key)}}/>
-                        </td>
-                    </tr>
-                )
-             })
-        }
     }
 
     render() {
         return (
             <div className="col">
-                <table className="table">
-                    <thead className="thead-light">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {this.loadData()}
-                    </tbody>
-                </table>
-                <Pagination
-                    currentPage={this.state.currentPage}
-                    totalPages={this.state.totalPage}
-                    changeCurrentPage={this.changeCurrentPage}
-                    theme="circle"
+                <Table 
+                    columns={this.EARNING_COLUMNS} 
+                    dataSource={this.state.originalData}
+                    pagination={{ position: ['topCenter', 'bottomCenter'] }}
+                    bordered
                 />
             </div>
         );

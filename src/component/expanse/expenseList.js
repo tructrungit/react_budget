@@ -4,6 +4,8 @@ import ExpenseDetail from './expenseDetail';
 import Pagination from "react-pagination-library";
 import "react-pagination-library/build/css/index.css"; //for css
 import { CONSTANTS } from '../constants';
+import { Table } from 'antd';
+import 'antd/dist/antd.css';
 
 class ExpenseList extends Component {
     constructor(props) {

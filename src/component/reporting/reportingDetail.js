@@ -5,7 +5,7 @@ import 'antd/dist/antd.css';
 import { CONSTANTS } from '../constants';
 
 class ReportingDetail extends Component {
-    header() {
+    title() {
       return (
         <div>
             - Total Income: {this.props.totalEarning} <br/> 
@@ -27,7 +27,7 @@ class ReportingDetail extends Component {
                     dataSource={this.props.monthlyData}
                     pagination={{ position: ['topCenter', 'bottomCenter'] }}
                     bordered
-                    title={() => this.header()} 
+                    title={() => this.title()} 
                 />
             </div>
         )
