@@ -64,7 +64,6 @@ class ReportingDetail extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-      isLoading: state.reportingReducer.isLoading
   }
 }
 

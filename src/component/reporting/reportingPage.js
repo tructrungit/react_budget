@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { DatePicker, Spin, Alert } from 'antd';
+import { DatePicker } from 'antd';
 import 'antd/dist/antd.css';
+const { RangePicker } = DatePicker
 import moment from 'moment';
 import { CONSTANTS } from '../constants';
 import ReportingDetail from './reportingDetail';
 import { getExpenseDataByMonth, getEarningDataByMonth } from '../../action/reportingAction';
-const { RangePicker } = DatePicker
+import LoadingComponent from '../loadingComponent';
+
 
 class ReportingPage extends Component {
     UNSAFE_componentWillMount() {
@@ -32,20 +34,6 @@ class ReportingPage extends Component {
         return this.props.earningData.reduce((accumulator, item) => accumulator + Number(item.amount), 0);
     }
 
-    loadSpin() {
-        return (
-            <div>
-                <Spin tip="Loading...">
-                    <Alert
-                    message="Loading..."
-                    description="Please wait..."
-                    type="info"
-                    />
-                </Spin>
-            </div>
-        )
-    }
-
     render() {
         return (
             <div>
@@ -61,7 +49,7 @@ class ReportingPage extends Component {
                             format={[CONSTANTS.DAY_FORMAT, CONSTANTS.DAY_FORMAT]}
                             />
                     </div>
-                    {this.props.isLoading && this.loadSpin()}
+                    {this.props.isLoading && <LoadingComponent/>}
                     <br/>
                     <ReportingDetail 
                         monthlyData={this.props.expenseData} 

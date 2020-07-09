@@ -2,6 +2,7 @@ import { earningData, monthlyEarning } from "../component/firebaseConnect";
 import { CONSTANTS } from "../component/constants";
 
 const earningState = {
+    isLoading: false,
     isOpenForm: false,
     isEdit: false,
     editData: {},
@@ -42,6 +43,8 @@ export const earningReducer = (state = earningState, action) => {
             return state
         case CONSTANTS.GET_MONTHLY_EARNING:
             return {...state, monthlyData: action.data}
+        case CONSTANTS.UPDATE_IS_LOADING:
+            return {...state, isLoading: action.status}
         default:
             return state
     }

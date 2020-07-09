@@ -76,6 +76,10 @@ class ExpenseList extends Component {
         })
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        this.props.updateIsLoading(false);
+    }
+
     render() {
         return (
             <div className="col">
@@ -111,6 +115,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         deleteData: (keyData) => {
             dispatch({type: CONSTANTS.DELETE_EXPENSE_DATA, keyData})
+        },
+        updateIsLoading: (status) => {
+            dispatch({type: CONSTANTS.UPDATE_IS_LOADING, status})
         }
     }
 }

@@ -2,6 +2,7 @@ import { expenseData } from "../component/firebaseConnect";
 import { CONSTANTS } from "../component/constants";
 
 const expenseState = {
+    isLoading: false,
     isOpenForm: false,
     isEdit: false,
     editData: {}
@@ -34,6 +35,8 @@ export const expenseReducer = (state = expenseState, action) => {
         case CONSTANTS.DELETE_EXPENSE_DATA:
             expenseData.child(action.keyData).remove();
             return {...state}
+        case CONSTANTS.UPDATE_IS_LOADING:
+            return {...state, isLoading: action.status}
         default:
             return state
     }

@@ -88,6 +88,10 @@ class EarningList extends Component {
         })
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        this.props.updateIsLoading(false);
+    }
+
     render() {
         return (
             <div className="col">
@@ -120,6 +124,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         showHideEarningForm: () => {
             dispatch({type: CONSTANTS.CHANGE_EARNING_FORM})
         },
+        updateIsLoading: (status) => {
+            dispatch({type: CONSTANTS.UPDATE_IS_LOADING, status})
+        }
     }
 }
 

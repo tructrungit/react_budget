@@ -5,6 +5,7 @@ import EarningForm from './earningForm';
 import { connect } from 'react-redux';
 import { CONSTANTS } from '../constants';
 import moment from 'moment';
+import LoadingComponent from '../loadingComponent';
 
 class EarningPage extends Component {
     constructor(props) {
@@ -30,6 +31,7 @@ class EarningPage extends Component {
     }
 
     UNSAFE_componentWillMount() {
+        this.props.updateIsLoading(true);
         salary.on('value', (items) => {
             let totalSalary = 0
             items.forEach(item => {
@@ -57,6 +59,7 @@ class EarningPage extends Component {
                     {!this.props.isOpenForm && <button type="button" onClick={() => this.props.showHideEarningForm()} className="btn btn-primary btn-lg btn-block">Create Income Item</button>}
                     {!this.props.isOpenForm && !this.state.monthlyEarning.date && <button type="button" onClick={() => this.addMonthlyEarning()} className="btn btn-warning btn-lg btn-block">Create Monthly Earning Item</button>}
                 </div>
+                {this.props.isLoading && <LoadingComponent/>}
                 <div className="row">
                     <EarningList/>
                 </div>
@@ -68,6 +71,7 @@ class EarningPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         isOpenForm: state.earningReducer.isOpenForm,
+        isLoading: state.earningReducer.isLoading
     }
 }
 
@@ -78,6 +82,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         addMonthlyEarning: (data) => {
             dispatch({type: CONSTANTS.ADD_MONTHLY_EARNING, data})
+        },
+        updateIsLoading: (status) => {
+            dispatch({type: CONSTANTS.UPDATE_IS_LOADING, status})
         }
     }
 }

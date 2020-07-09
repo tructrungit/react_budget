@@ -3,8 +3,13 @@ import { connect } from 'react-redux';
 import { CONSTANTS } from '../constants';
 import ExpenseForm from './expenseForm';
 import ExpenseList from './expenseList';
+import LoadingComponent from '../loadingComponent';
 
 class ExpensePage extends Component {
+    UNSAFE_componentWillMount() {
+        this.props.updateIsLoading(true);
+    }
+
     render() {
         return (
             <div>
@@ -19,6 +24,7 @@ class ExpensePage extends Component {
                     <div className="alert clearfix">
                         {!this.props.isOpenForm && <button type="button" onClick={() => this.props.showHideExpanseForm()} className="btn btn-primary btn-lg btn-block">Create Expense Item</button>}
                     </div>
+                    {this.props.isLoading && <LoadingComponent/>}
                     <div className="row">
                         <ExpenseList/>
                     </div>
@@ -31,6 +37,7 @@ class ExpensePage extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         isOpenForm: state.expenseReducer.isOpenForm,
+        isLoading: state.expenseReducer.isLoading
     }
 }
 
@@ -38,6 +45,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         showHideExpanseForm: () => {
             dispatch({type: CONSTANTS.CHANGE_EXPENSE_FORM})
+        },
+        updateIsLoading: (status) => {
+            dispatch({type: CONSTANTS.UPDATE_IS_LOADING, status})
         }
     }
 }
