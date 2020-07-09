@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { DatePicker } from 'antd';
+import { DatePicker, Spin, Alert } from 'antd';
 import 'antd/dist/antd.css';
 import moment from 'moment';
 import { CONSTANTS } from '../constants';
@@ -10,13 +10,15 @@ const { MonthPicker } = DatePicker
 
 class ReportingPage extends Component {
     UNSAFE_componentWillMount() {
-      this.props.getExpenseDataByMonth(this.props.pickedDate);
-      this.props.getEarningDataByMonth(this.props.pickedDate);
-      this.props.getMonthlyEarning(this.props.pickedDate);
+        this.props.updateIsLoading(true);
+        this.props.getExpenseDataByMonth(this.props.pickedDate);
+        this.props.getEarningDataByMonth(this.props.pickedDate);
+        this.props.getMonthlyEarning(this.props.pickedDate);
     }
 
     handleDayChange(date, dateString) {
         if (dateString) {
+            this.props.updateIsLoading(true);
             this.props.updatePickedDay(dateString);
             this.props.getExpenseDataByMonth(dateString);
             this.props.getEarningDataByMonth(dateString);
@@ -31,6 +33,20 @@ class ReportingPage extends Component {
     getTotalEarning() {
         let earning = this.props.earningData.reduce((accumulator, item) => accumulator + Number(item.amount), 0);
         return earning + Number((this.props.monthlyEarningData.totalSalary || 0))
+    }
+
+    loadSpin() {
+        return (
+            <div>
+                <Spin tip="Loading...">
+                    <Alert
+                    message="Loading..."
+                    description="Please wait..."
+                    type="info"
+                    />
+                </Spin>
+            </div>
+        )
     }
 
     render() {
@@ -48,6 +64,7 @@ class ReportingPage extends Component {
                             format={CONSTANTS.MONTH_FORMAT}
                         />
                     </div>
+                    {this.props.isLoading && this.loadSpin()}
                     <br/>
                     <ReportingDetail 
                         monthlyData={this.props.expenseData} 
@@ -65,7 +82,8 @@ const mapStateToProps = (state, ownProps) => {
         pickedDate: state.reportingReducer.pickedDate,
         expenseData: state.reportingReducer.expenseData,
         earningData: state.reportingReducer.earningData,
-        monthlyEarningData: state.reportingReducer.monthlyEarningData
+        monthlyEarningData: state.reportingReducer.monthlyEarningData,
+        isLoading: state.reportingReducer.isLoading
     }
   }
   
@@ -83,6 +101,9 @@ const mapStateToProps = (state, ownProps) => {
         getMonthlyEarning: (pickedDate) => {
             dispatch(getMonthlyEarning(pickedDate))
         },
+        updateIsLoading: (status) => {
+            dispatch({type: CONSTANTS.UPDATE_IS_LOADING, status})
+        }
     }
   }
   
