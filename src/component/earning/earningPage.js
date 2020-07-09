@@ -5,7 +5,6 @@ import EarningForm from './earningForm';
 import { connect } from 'react-redux';
 import { CONSTANTS } from '../constants';
 import moment from 'moment';
-import { getMonthlyEarning } from '../../action/earningAction';
 
 class EarningPage extends Component {
     constructor(props) {
@@ -20,6 +19,7 @@ class EarningPage extends Component {
         let data = {};
         data.totalSalary = this.state.totalSalary;
         data.date = moment().format('YYYY-MM');
+        data.milliseconds = moment(data.date).valueOf();
         this.props.addMonthlyEarning(data);
     }
 
@@ -42,13 +42,13 @@ class EarningPage extends Component {
             <div className="container">
                 <br/>
                 <div className="alert alert-info clearfix">
-                    <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0" style={{textTransform: 'uppercase'}}>Earning Management</h2>
+                    <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0" style={{textTransform: 'uppercase'}}>Income Management</h2>
                 </div>
                 <div className="clearfix">
                     {this.props.isOpenForm && <EarningForm/>}
                 </div>
                 <div className="alert clearfix">
-                    {!this.props.isOpenForm && <button type="button" onClick={() => this.props.showHideEarningForm()} className="btn btn-primary btn-lg btn-block">Create Earning Item</button>}
+                    {!this.props.isOpenForm && <button type="button" onClick={() => this.props.showHideEarningForm()} className="btn btn-primary btn-lg btn-block">Create Income Item</button>}
                     {!this.props.isOpenForm && !this.state.monthlyEarning.date && <button type="button" onClick={() => this.addMonthlyEarning()} className="btn btn-warning btn-lg btn-block">Create Monthly Earning Item</button>}
                 </div>
                 <div className="row">
@@ -72,9 +72,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         addMonthlyEarning: (data) => {
             dispatch({type: CONSTANTS.ADD_MONTHLY_EARNING, data})
-        },
-        getMonthlyEarnings: () => {
-            dispatch(getMonthlyEarning())
         }
     }
 }

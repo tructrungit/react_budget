@@ -12,7 +12,6 @@ export const loginFailAction = (user) => ({
 
 export const getUser = (email, password) => async dispatch => {
     try {
-        console.log('getUser');
         await firebaseConnect.auth().signInWithEmailAndPassword(email, password);
         dispatch(loginSuccessAction(email));
     } catch (error) {

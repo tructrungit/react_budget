@@ -48,7 +48,7 @@ class EarningForm extends Component {
         return (
             <div className="col-md-12">
                 <div className="form_main">
-                <h4 className="heading"><strong>{this.props.isEdit ? 'Edit' : 'Create'} </strong> Earning <span /></h4>
+                <h4 className="heading"><strong>{this.props.isEdit ? 'Edit' : 'Create'} </strong> Income <span /></h4>
                 <div className="form">
                     <form method="post" onSubmit={() => this.addData(this.state.formTitle, this.state.formAmount, this.state.formDate)}>
                         <div className="form-group">

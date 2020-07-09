@@ -1,26 +1,36 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
 import { DatePicker } from 'antd';
 import 'antd/dist/antd.css';
 import moment from 'moment';
 import { CONSTANTS } from '../constants';
 import ReportingDetail from './reportingDetail';
+import { getExpenseDataByMonth, getMonthlyEarning, getEarningDataByMonth } from '../../action/reportingAction';
 const { MonthPicker } = DatePicker
 
-export default class ReportingPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            pickedDate: moment().format('YYYY-M'),
-        }
+class ReportingPage extends Component {
+    UNSAFE_componentWillMount() {
+      this.props.getExpenseDataByMonth(this.props.pickedDate);
+      this.props.getEarningDataByMonth(this.props.pickedDate);
+      this.props.getMonthlyEarning(this.props.pickedDate);
     }
 
     handleDayChange(date, dateString) {
         if (dateString) {
-            this.setState({
-                pickedDate: dateString
-            });
+            this.props.updatePickedDay(dateString);
+            this.props.getExpenseDataByMonth(dateString);
+            this.props.getEarningDataByMonth(dateString);
+            this.props.getMonthlyEarning(dateString);
         }
-        console.log(this.state.pickedDate);
+    }
+
+    getTotalExpense() {
+        return this.props.expenseData.reduce((accumulator, item) => accumulator + Number(item.amount), 0);
+    }
+
+    getTotalEarning() {
+        let earning = this.props.earningData.reduce((accumulator, item) => accumulator + Number(item.amount), 0);
+        return earning + Number((this.props.monthlyEarningData.totalSalary || 0))
     }
 
     render() {
@@ -29,7 +39,7 @@ export default class ReportingPage extends Component {
                 <div className="container">
                     <br/>
                     <div className="alert alert-info clearfix">
-                        <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0" style={{textTransform: 'uppercase'}}>Reporting {this.state.pickedDate}</h2>
+                        <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0" style={{textTransform: 'uppercase'}}>Reporting {this.props.pickedDate}</h2>
                     </div>
                     <div className="col clearfix">
                         <MonthPicker
@@ -39,9 +49,41 @@ export default class ReportingPage extends Component {
                         />
                     </div>
                     <br/>
-                    <ReportingDetail pickedDate={this.state.pickedDate}/>
+                    <ReportingDetail 
+                        monthlyData={this.props.expenseData} 
+                        totalEarning={this.getTotalEarning()}
+                        totalExpense={this.getTotalExpense()}/>
                 </div>
             </div>
         )
     }
 }
+
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        pickedDate: state.reportingReducer.pickedDate,
+        expenseData: state.reportingReducer.expenseData,
+        earningData: state.reportingReducer.earningData,
+        monthlyEarningData: state.reportingReducer.monthlyEarningData
+    }
+  }
+  
+  const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        updatePickedDay: (pickedDate) => {
+            dispatch({type: CONSTANTS.UPDATE_PICKED_DAY, pickedDate})
+        },
+        getExpenseDataByMonth: (pickedDate) => {
+            dispatch(getExpenseDataByMonth(pickedDate))
+        },
+        getEarningDataByMonth: (pickedDate) => {
+            dispatch(getEarningDataByMonth(pickedDate))
+        },
+        getMonthlyEarning: (pickedDate) => {
+            dispatch(getMonthlyEarning(pickedDate))
+        },
+    }
+  }
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(ReportingPage);
