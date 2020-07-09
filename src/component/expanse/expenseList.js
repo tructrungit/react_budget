@@ -1,28 +1,62 @@
 import React, {Component} from 'react';
 import { expenseData } from '../firebaseConnect';
-import ExpenseDetail from './expenseDetail';
-import Pagination from "react-pagination-library";
-import "react-pagination-library/build/css/index.css"; //for css
-import { CONSTANTS } from '../constants';
 import { Table } from 'antd';
 import 'antd/dist/antd.css';
+import { connect } from 'react-redux'
+import { CONSTANTS } from '../constants';
+import { UTILS } from '../utils';
 
 class ExpenseList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             originalData: [],
-            showData: [],
-            currentPage: 1,
-            totalPage: 1
         }
-    }    
+    }
+
+    edit(value) {
+        this.props.editData(value);
+        this.props.showHideExpenseForm();
+        window.scrollTo(0, 0)
+    }
+    
+    EXPENSE_COLUMNS = [
+        {
+            title: 'Title',
+            dataIndex: 'title',
+        },
+        {
+            title: 'Date',
+            dataIndex: 'date',
+            sorter: {
+                compare: (a, b) => new Date(a.date) - new Date(b.date),
+                multiple: 2,
+            },
+        },
+        {
+            title: 'Amount',
+            dataIndex: 'amount',
+            sorter: {
+                compare: (a, b) => a.amount - b.amount,
+                multiple: 2,
+            },
+        },
+        {
+            title: 'Action',
+            dataIndex: '',
+            key: 'x',
+            render: (text, record) => (
+                <div>
+                    {!this.props.isEdit && !this.props.isOpenForm && <input type="button" className="btn btn-outline-warning" value="Edit" onClick={() => this.edit(record)}/>}	&nbsp;
+                    <input type="button" className="btn btn-outline-danger" value="Delete" onClick={() => {if(window.confirm('Delete the item?'))this.props.deleteData(record.key)}}/>
+                </div>
+            ),
+        },
+      ]
 
     UNSAFE_componentWillMount() {
         expenseData.on('value', (notes) => {
             var originalData = [];
-            var showData = [];
-            var totalPage = 1;
             // load data by firebase
             notes.forEach((item) => {
                 var data = {};
@@ -37,64 +71,47 @@ class ExpenseList extends Component {
             originalData = originalData.sort((a,b) => {
                 return new Date(b.date) - new Date(a.date);
             });
-            // load showData by ITEM_PER_PAGE 
-            for (let i = 0; i < CONSTANTS.ITEM_PER_PAGE; i++) {
-                showData.push(originalData[i]);
-            }
-            // get totalPage
-            if (originalData.length % CONSTANTS.ITEM_PER_PAGE) {
-                totalPage = ~~(originalData.length / CONSTANTS.ITEM_PER_PAGE) + 1;
-            } else {
-                totalPage = (originalData.length / CONSTANTS.ITEM_PER_PAGE);
-            }
-
-            this.setState({
-                originalData,
-                showData,
-                totalPage
-            })
+            this.setState({originalData })
         })
-    }
-
-    UNSAFE_componentWillUpdate(nextProps, nextState) {
-        if (this.state.originalData !== nextState.originalData) nextState.currentPage = 1;
-    }
-
-    changeCurrentPage = numPage => {
-        let showData = [];
-        let start = (numPage - 1) * CONSTANTS.ITEM_PER_PAGE;
-        let end = (start + CONSTANTS.ITEM_PER_PAGE) < this.state.originalData.length ? start + CONSTANTS.ITEM_PER_PAGE : this.state.originalData.length;
-        for (let i = start; i < end; i++) {
-            showData.push(this.state.originalData[i]);
-        }
-        this.setState({ currentPage: numPage, showData: showData });
-      };
-
-    loadData() {
-        if (this.state.showData) {
-            return this.state.showData.map((value, key) => {
-                return (
-                    <ExpenseDetail key={value.key} keyId={value.key} title={value.title} amount={value.amount} content={value.content} note={value} date={value.date}/>
-                )
-             })
-        }
     }
 
     render() {
         return (
             <div className="col">
-                <div id="noteList" role="tablist" aria-multiselectable="true">
-                    {this.loadData()}
-                </div>
-                <Pagination
-                    currentPage={this.state.currentPage}
-                    totalPages={this.state.totalPage}
-                    changeCurrentPage={this.changeCurrentPage}
-                    theme="circle"
+                <Table 
+                    columns={this.EXPENSE_COLUMNS} 
+                    expandable={{
+                        expandedRowRender: record => <p style={{ margin: 0 }}>{record.content}</p>,
+                        rowExpandable: record => record.content !== '' || !record.content,
+                    }}
+                    dataSource={this.state.originalData}
+                    pagination={{ position: ['topCenter', 'bottomCenter'] }}
+                    bordered
                 />
             </div>
         );
     }
 }
 
-export default ExpenseList;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        isOpenForm: state.expenseReducer.isOpenForm,
+        isEdit: state.expenseReducer.isEdit,
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        showHideExpenseForm: () => {
+            dispatch({type: CONSTANTS.CHANGE_EXPENSE_FORM})
+        },
+        editData: (editData) => {
+            dispatch({type: CONSTANTS.GET_EDIT_EXPENSE_DATA, editData})
+        },
+        deleteData: (keyData) => {
+            dispatch({type: CONSTANTS.DELETE_EXPENSE_DATA, keyData})
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExpenseList);
