@@ -1,19 +1,10 @@
 import React, {Component} from 'react';
-import { expenseData } from '../firebaseConnect';
 import { Table } from 'antd';
 import 'antd/dist/antd.css';
 import { connect } from 'react-redux'
 import { CONSTANTS } from '../constants';
-import { UTILS } from '../componentUtils';
 
 class ExpenseList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            originalData: [],
-        }
-    }
-
     edit(value) {
         this.props.editData(value);
         this.props.showHideExpenseForm();
@@ -54,28 +45,6 @@ class ExpenseList extends Component {
         },
       ]
 
-    UNSAFE_componentWillMount() {
-        expenseData.on('value', (notes) => {
-            var originalData = [];
-            // load data by firebase
-            notes.forEach((item) => {
-                var data = {};
-                data.key = item.key;
-                data.title = item.val().title;
-                data.amount = item.val().amount;
-                data.amountByCurrency = UTILS.FORMAT_AMOUNT(item.val().amount);
-                data.content = item.val().content;
-                data.date = item.val().date;
-                originalData.push(data);
-            });
-            // sort data by date
-            originalData = originalData.sort((a,b) => {
-                return new Date(b.date) - new Date(a.date);
-            });
-            this.setState({originalData })
-        })
-    }
-
     componentDidUpdate(prevProps, prevState, snapshot) {
         this.props.updateIsLoading(false);
     }
@@ -89,7 +58,7 @@ class ExpenseList extends Component {
                         expandedRowRender: record => <p style={{ margin: 0 }}>{record.content}</p>,
                         rowExpandable: record => record.content !== '' || !record.content,
                     }}
-                    dataSource={this.state.originalData}
+                    dataSource={this.props.expenseData}
                     pagination={{ position: ['topCenter', 'bottomCenter'] }}
                     bordered
                 />
@@ -117,7 +86,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch({type: CONSTANTS.DELETE_EXPENSE_DATA, keyData})
         },
         updateIsLoading: (status) => {
-            dispatch({type: CONSTANTS.UPDATE_IS_LOADING, status})
+            dispatch({type: CONSTANTS.UPDATE_IS_LOADING_EXPENSE_PAGE, status})
         }
     }
 }

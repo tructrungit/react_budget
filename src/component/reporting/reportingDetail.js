@@ -70,7 +70,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
       updateIsLoading: (status) => {
-          dispatch({type: CONSTANTS.UPDATE_IS_LOADING, status})
+          dispatch({type: CONSTANTS.UPDATE_IS_LOADING_REPORTING_PAGE, status})
       }
   }
 }

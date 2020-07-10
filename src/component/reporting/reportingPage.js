@@ -44,8 +44,9 @@ class ReportingPage extends Component {
                     </div>
                     <div className="col clearfix">
                         <RangePicker
+                            showToday
                             onChange={(date, dateString) => this.handleDayChange(date, dateString)}
-                            defaultValue={[moment(new Date(), CONSTANTS.MONTH_FORMAT).subtract(1, 'months'), moment(new Date(), CONSTANTS.MONTH_FORMAT)]}
+                            defaultValue={[moment(this.props.pickedDate[0], CONSTANTS.MONTH_FORMAT).subtract(1, 'months'), moment(this.props.pickedDate[1], CONSTANTS.MONTH_FORMAT)]}
                             format={[CONSTANTS.DAY_FORMAT, CONSTANTS.DAY_FORMAT]}
                             />
                     </div>
@@ -83,7 +84,7 @@ const mapStateToProps = (state, ownProps) => {
             dispatch(getEarningDataByMonth(pickedDate))
         },
         updateIsLoading: (status) => {
-            dispatch({type: CONSTANTS.UPDATE_IS_LOADING, status})
+            dispatch({type: CONSTANTS.UPDATE_IS_LOADING_REPORTING_PAGE, status})
         }
     }
   }

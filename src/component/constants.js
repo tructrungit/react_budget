@@ -13,44 +13,19 @@ export const CONSTANTS = {
     CLOSE_FROM: 'CLOSE_FROM',
     GET_EDIT_EXPENSE_DATA: 'GET_EDIT_EXPENSE_DATA',
     DELETE_EXPENSE_DATA: 'DELETE_EXPENSE_DATA',
+    UPDATE_IS_LOADING_EXPENSE_PAGE: 'UPDATE_IS_LOADING_EXPENSE_PAGE',
     // Earning
     ADD_EARNING: 'ADD_EARNING',
     CHANGE_EARNING_FORM: 'CHANGE_EARNING_FORM',
     GET_EDIT_EARNING_DATA: 'GET_EDIT_EARNING_DATA',
     DELETE_EARNING: 'DELETE_EARNING',
+    UPDATE_IS_LOADING_EARNING_PAGE: 'UPDATE_IS_LOADING_EARNING_PAGE',
     // Monthly Earning
     ADD_MONTHLY_EARNING: 'ADD_MONTHLY_EARNING',
     // Reporting
     GET_EXPENSE_DATA_BY_MONTH: 'GET_EXPENSE_DATA_BY_MONTH',
     GET_EARNING_DATA_BY_MONTH: 'GET_EARNING_DATA_BY_MONTH',
     GET_MONTHLY_EARNING: 'GET_MONTHLY_EARNING',
-    UPDATE_IS_LOADING: 'UPDATE_IS_LOADING',
+    UPDATE_IS_LOADING_REPORTING_PAGE: 'UPDATE_IS_LOADING_REPORTING_PAGE',
     UPDATE_PICKED_DAY: 'UPDATE_PICKED_DAY',
-    // Table columns
-    REPORT_COLUMNS: [
-        {
-          title: 'Title',
-          dataIndex: 'title',
-        },
-        {
-          title: 'Date',
-          dataIndex: 'date',
-          sorter: {
-            compare: (a, b) => new Date(a.date) - new Date(b.date),
-            multiple: 2,
-          },
-        },
-        {
-          title: 'Amount',
-          dataIndex: 'amount',
-          sorter: {
-            compare: (a, b) => a.amount - b.amount,
-            multiple: 2,
-          },
-        },
-        {
-          title: 'Content',
-          dataIndex: 'content',
-        },
-      ],
 }

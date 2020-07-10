@@ -17,7 +17,7 @@ export const reportingReducer = (state = reportingState, action) => {
             return {...state, earningData: action.data}
         case CONSTANTS.GET_MONTHLY_EARNING:
             return {...state, monthlyEarningData: action.data}
-        case CONSTANTS.UPDATE_IS_LOADING:
+        case CONSTANTS.UPDATE_IS_LOADING_REPORTING_PAGE:
             return {...state, isLoading: action.status}
         case CONSTANTS.UPDATE_PICKED_DAY:
             return {...state, pickedDate: action.pickedDate}

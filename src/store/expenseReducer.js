@@ -35,7 +35,7 @@ export const expenseReducer = (state = expenseState, action) => {
         case CONSTANTS.DELETE_EXPENSE_DATA:
             expenseData.child(action.keyData).remove();
             return {...state}
-        case CONSTANTS.UPDATE_IS_LOADING:
+        case CONSTANTS.UPDATE_IS_LOADING_EXPENSE_PAGE:
             return {...state, isLoading: action.status}
         default:
             return state

@@ -1,22 +1,11 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { earningData } from '../firebaseConnect';
-import "react-pagination-library/build/css/index.css";
 import { CONSTANTS } from '../constants';
 import 'react-day-picker/lib/style.css';
 import { Table } from 'antd';
 import 'antd/dist/antd.css';
-import { UTILS } from '../componentUtils';
 
 class EarningList extends Component {
-    constructor(props) {
-        super(props);
-        this.handleDayChange = this.handleDayChange.bind(this);
-        this.state = {
-            originalData: []
-        }
-    }
-    
     EARNING_COLUMNS = [
         {
             title: 'Title',
@@ -65,29 +54,6 @@ class EarningList extends Component {
         });
     }
 
-    UNSAFE_componentWillMount() {
-        earningData.on('value', (notes) => {
-            var originalData = [];
-            // load data by firebase
-            notes.forEach((item) => {
-                var data = {};
-                data.key = item.key;
-                data.title = item.val().title;
-                data.date = item.val().date;
-                data.amount = item.val().amount;
-                data.amountByCurrency = UTILS.FORMAT_AMOUNT(item.val().amount);
-                originalData.push(data);
-            });
-            // sort data by date
-            originalData = originalData.sort((a,b) => {
-                return new Date(b.date) - new Date(a.date);
-            });
-            this.setState({
-                originalData
-            })
-        })
-    }
-
     componentDidUpdate(prevProps, prevState, snapshot) {
         this.props.updateIsLoading(false);
     }
@@ -97,7 +63,7 @@ class EarningList extends Component {
             <div className="col">
                 <Table 
                     columns={this.EARNING_COLUMNS} 
-                    dataSource={this.state.originalData}
+                    dataSource={this.props.earningData}
                     pagination={{ position: ['topCenter', 'bottomCenter'] }}
                     bordered
                 />
@@ -125,7 +91,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch({type: CONSTANTS.CHANGE_EARNING_FORM})
         },
         updateIsLoading: (status) => {
-            dispatch({type: CONSTANTS.UPDATE_IS_LOADING, status})
+            dispatch({type: CONSTANTS.UPDATE_IS_LOADING_EARNING_PAGE, status})
         }
     }
 }

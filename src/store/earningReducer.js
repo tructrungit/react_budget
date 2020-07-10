@@ -43,7 +43,7 @@ export const earningReducer = (state = earningState, action) => {
             return state
         case CONSTANTS.GET_MONTHLY_EARNING:
             return {...state, monthlyData: action.data}
-        case CONSTANTS.UPDATE_IS_LOADING:
+        case CONSTANTS.UPDATE_IS_LOADING_EARNING_PAGE:
             return {...state, isLoading: action.status}
         default:
             return state
