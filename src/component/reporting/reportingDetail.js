@@ -26,11 +26,7 @@ class ReportingDetail extends Component {
           compare: (a, b) => a.amount - b.amount,
           multiple: 2,
         },
-      },
-      {
-        title: 'Content',
-        dataIndex: 'content',
-      },
+      }
     ]
 
     title() {
@@ -53,6 +49,10 @@ class ReportingDetail extends Component {
             <div className="col">
                 <Table 
                     columns={this.REPORT_COLUMNS} 
+                    expandable={{
+                      expandedRowRender: record => <p style={{ margin: 0, whiteSpace: "pre-line" }}>{record.content}</p>,
+                      rowExpandable: record => record.content !== "" || record.content,
+                    }}
                     dataSource={this.props.monthlyData}
                     pagination={{ position: ['topCenter', 'bottomCenter'] }}
                     bordered

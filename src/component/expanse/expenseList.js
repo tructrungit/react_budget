@@ -116,7 +116,7 @@ class ExpenseList extends Component {
                 <Table 
                     columns={this.EXPENSE_COLUMNS} 
                     expandable={{
-                        expandedRowRender: record => <p style={{ margin: 0 }}>{record.content}</p>,
+                        expandedRowRender: record => <p style={{ margin: 0, whiteSpace: "pre-line" }}>{record.content}</p>,
                         rowExpandable: record => record.content !== "" || record.content,
                     }}
                     dataSource={this.state.originalData}
