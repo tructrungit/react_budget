@@ -45,6 +45,7 @@ class ReportingDetail extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
       this.props.updateIsLoading(false);
+      this.props.update1STLoad();
     }
 
     render() {
@@ -71,6 +72,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
       updateIsLoading: (status) => {
           dispatch({type: CONSTANTS.UPDATE_IS_LOADING_REPORTING_PAGE, status})
+      },
+      update1STLoad: () => {
+        dispatch({type: CONSTANTS.UPDATE_1ST_LOAD})
       }
   }
 }

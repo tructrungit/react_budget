@@ -2,6 +2,7 @@ import { CONSTANTS } from "../component/constants";
 import moment from 'moment';
 
 const reportingState = {
+    isFirstLoad: true,
     isLoading: false,
     pickedDate: [moment(new Date()).subtract(1, 'months').format(CONSTANTS.DAY_FORMAT), moment(new Date()).format(CONSTANTS.DAY_FORMAT)],
     expenseData: [],
@@ -21,6 +22,8 @@ export const reportingReducer = (state = reportingState, action) => {
             return {...state, isLoading: action.status}
         case CONSTANTS.UPDATE_PICKED_DAY:
             return {...state, pickedDate: action.pickedDate}
+        case CONSTANTS.UPDATE_1ST_LOAD:
+            return {...state, isFirstLoad: false}
         default:
             return state
     }

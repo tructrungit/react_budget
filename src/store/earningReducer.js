@@ -1,5 +1,6 @@
 import { earningData, monthlyEarning } from "../component/firebaseConnect";
 import { CONSTANTS } from "../component/constants";
+import moment from 'moment';
 
 const earningState = {
     isLoading: false,
@@ -16,6 +17,7 @@ export const earningReducer = (state = earningState, action) => {
             if (state.isEdit) {
                 // update data to firebase
                 earningData.child(action.data.key).update({
+                    milliseconds: moment(action.data.date).valueOf(),
                     date: action.data.date,
                     amount: action.data.amount,
                     title: action.data.title

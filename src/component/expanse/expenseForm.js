@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { CONSTANTS } from '../constants';
 import moment from 'moment';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import 'react-day-picker/lib/style.css';
+import { DatePicker } from 'antd';
+import 'antd/dist/antd.css';
 import '../../css/form.css'
 
 
@@ -17,7 +17,7 @@ class ExpenseForm extends Component {
             formAmount: this.props.editData.amount || '',
             formContent: this.props.editData.content || '',
             formDate: this.props.editData.date || moment().format('YYYY-M-DD'),
-            selectedDay: this.props.editData.date || moment().toDate()
+            selectedDay: moment(this.props.editData.date) || moment()
         }
     }
 
@@ -29,12 +29,13 @@ class ExpenseForm extends Component {
         });
     }
 
-    handleDayChange(selectedDay, modifiers, dayPickerInput) {
-        let input = dayPickerInput.getInput();
-        this.setState({
-            selectedDay: selectedDay,
-            formDate: input.value
-        });
+    handleDayChange(date, dateString) {
+        if (dateString) {
+            this.setState({
+                selectedDay: date,
+                formDate: dateString
+            });
+        }
     }
     
     addData = (title, amount, content, date) => {
@@ -43,6 +44,7 @@ class ExpenseForm extends Component {
         item.amount = amount * 1000;
         item.content = content;
         item.date = date;
+        item.milliseconds = moment(date).valueOf();
         if (this.props.isEdit) item.key = this.props.editData.key;
         this.props.addData(item);
         this.props.showHideNoteForm();
@@ -73,12 +75,11 @@ class ExpenseForm extends Component {
                                 name="formContent" defaultValue={this.state.formContent}></textarea>
                             {/* <small id="formContentHelp" className="form-text text-muted">Input content of expense</small> */}
                         </div>         
-                        <div className="form-group">           
-                            <DayPickerInput
-                                value={this.state.selectedDay}
-                                onDayChange={this.handleDayChange}
-                            />
-                            {/* <small id="formDateHelp" className="form-text text-muted">Select date of expense</small> */}
+                        <div className="form-group">      
+                            <DatePicker 
+                                onChange={this.handleDayChange} 
+                                defaultValue={this.state.selectedDay}
+                                format={CONSTANTS.DAY_FORMAT}/>     
                         </div>    
                         <br/>
                         <button className="txt2" type="submit" >Save</button>

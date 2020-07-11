@@ -3,8 +3,61 @@ import { Table } from 'antd';
 import 'antd/dist/antd.css';
 import { connect } from 'react-redux'
 import { CONSTANTS } from '../constants';
+import { expenseData } from '../firebaseConnect';
+import { UTILS } from '../componentUtils';
+import moment from 'moment';
+import { DatePicker } from 'antd';
+import 'antd/dist/antd.css';
+const { RangePicker } = DatePicker;
+
 
 class ExpenseList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            originalData: [],
+        }
+    }
+
+    loadDataByMonth(pickedDate) {
+        if(this.props.isFirstLoad) this.props.updateIsLoading(true);
+        let startAt = moment(pickedDate[0], 'YYYY-MM-DD HH:mm').startOf('day').valueOf();
+        let endAt = moment(pickedDate[1], 'YYYY-MM-DD HH:mm').endOf('day').valueOf();
+        expenseData.orderByChild("milliseconds").startAt(startAt).endAt(endAt).on("value", (data) => {
+            var originalData = [];
+            // load data by firebase
+            data.forEach((item) => {
+                var data = {};
+                data.key = item.key;
+                data.title = item.val().title;
+                data.date = item.val().date;
+                data.amount = item.val().amount;
+                data.amountByCurrency = UTILS.FORMAT_AMOUNT(item.val().amount);
+                data.content = item.val().content;
+                originalData.push(data);
+            });
+            // sort data by date
+            originalData = originalData.sort((a,b) => {
+                return new Date(b.date) - new Date(a.date);
+            });
+
+            this.setState({
+                originalData,
+            })
+        });
+    }
+
+    UNSAFE_componentWillMount() {
+        this.loadDataByMonth(this.props.pickedDate);
+    }
+
+    handleDayChange(date, dateString) {
+        if (dateString[0] && dateString[1]) {
+            this.loadDataByMonth(dateString);
+            this.props.updatePickedDay(dateString);
+        }
+    }
+
     edit(value) {
         this.props.editData(value);
         this.props.showHideExpenseForm();
@@ -52,13 +105,21 @@ class ExpenseList extends Component {
     render() {
         return (
             <div className="col">
+                <div className="col clearfix">
+                    <RangePicker
+                        showToday
+                        onChange={(date, dateString) => this.handleDayChange(date, dateString)}
+                        defaultValue={[moment(this.props.pickedDate[0], CONSTANTS.MONTH_FORMAT), moment(this.props.pickedDate[1], CONSTANTS.MONTH_FORMAT)]}
+                        format={[CONSTANTS.DAY_FORMAT, CONSTANTS.DAY_FORMAT]}
+                        />
+                </div>
                 <Table 
                     columns={this.EXPENSE_COLUMNS} 
                     expandable={{
                         expandedRowRender: record => <p style={{ margin: 0 }}>{record.content}</p>,
-                        rowExpandable: record => record.content !== '' || !record.content,
+                        rowExpandable: record => record.content !== "" || record.content,
                     }}
-                    dataSource={this.props.expenseData}
+                    dataSource={this.state.originalData}
                     pagination={{ position: ['topCenter', 'bottomCenter'] }}
                     bordered
                 />
@@ -71,6 +132,8 @@ const mapStateToProps = (state, ownProps) => {
     return {
         isOpenForm: state.expenseReducer.isOpenForm,
         isEdit: state.expenseReducer.isEdit,
+        pickedDate: state.reportingReducer.pickedDate,
+        isFirstLoad: state.reportingReducer.isFirstLoad,
     }
 }
 
@@ -87,7 +150,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         updateIsLoading: (status) => {
             dispatch({type: CONSTANTS.UPDATE_IS_LOADING_EXPENSE_PAGE, status})
-        }
+        },
+        updatePickedDay: (pickedDate) => {
+            dispatch({type: CONSTANTS.UPDATE_PICKED_DAY, pickedDate})
+        },
     }
 }
 

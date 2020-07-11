@@ -4,8 +4,52 @@ import { CONSTANTS } from '../constants';
 import 'react-day-picker/lib/style.css';
 import { Table } from 'antd';
 import 'antd/dist/antd.css';
+import { earningData } from '../firebaseConnect';
+import { UTILS } from '../componentUtils';
+import moment from 'moment';
+import { DatePicker } from 'antd';
+import 'antd/dist/antd.css';
+const { RangePicker } = DatePicker;
 
 class EarningList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            originalData: [],
+        }
+    }
+
+    loadDataByMonth(pickedDate) {
+        if(this.props.isFirstLoad) this.props.updateIsLoading(true);
+        let startAt = moment(pickedDate[0], 'YYYY-MM-DD HH:mm').startOf('day').valueOf();
+        let endAt = moment(pickedDate[1], 'YYYY-MM-DD HH:mm').endOf('day').valueOf();
+        earningData.orderByChild("milliseconds").startAt(startAt).endAt(endAt).on("value", (data) => {
+            var originalData = [];
+            // load data by firebase
+            data.forEach((item) => {
+                var data = {};
+                data.key = item.key;
+                data.title = item.val().title;
+                data.date = item.val().date;
+                data.amount = item.val().amount;
+                data.amountByCurrency = UTILS.FORMAT_AMOUNT(item.val().amount);
+                originalData.push(data);
+            });
+            // sort data by date
+            originalData = originalData.sort((a,b) => {
+                return new Date(b.date) - new Date(a.date);
+            });
+
+            this.setState({
+                originalData,
+            })
+        });
+    }
+
+    UNSAFE_componentWillMount() {
+        this.loadDataByMonth(this.props.pickedDate);
+    }
+    
     EARNING_COLUMNS = [
         {
             title: 'Title',
@@ -46,12 +90,11 @@ class EarningList extends Component {
         window.scrollTo(0, 0)
     }
     
-    handleDayChange(selectedDay, modifiers, dayPickerInput) {
-        let input = dayPickerInput.getInput();
-        this.setState({
-            selectedDay: selectedDay,
-            formDate: input.value
-        });
+    handleDayChange(date, dateString) {
+        if (dateString[0] && dateString[1]) {
+            this.loadDataByMonth(dateString);
+            this.props.updatePickedDay(dateString);
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -61,9 +104,17 @@ class EarningList extends Component {
     render() {
         return (
             <div className="col">
+                <div className="col clearfix">
+                    <RangePicker
+                        showToday
+                        onChange={(date, dateString) => this.handleDayChange(date, dateString)}
+                        defaultValue={[moment(this.props.pickedDate[0], CONSTANTS.MONTH_FORMAT), moment(this.props.pickedDate[1], CONSTANTS.MONTH_FORMAT)]}
+                        format={[CONSTANTS.DAY_FORMAT, CONSTANTS.DAY_FORMAT]}
+                        />
+                </div>
                 <Table 
                     columns={this.EARNING_COLUMNS} 
-                    dataSource={this.props.earningData}
+                    dataSource={this.state.originalData}
                     pagination={{ position: ['topCenter', 'bottomCenter'] }}
                     bordered
                 />
@@ -76,6 +127,8 @@ const mapStateToProps = (state, ownProps) => {
     return {
         isOpenForm: state.earningReducer.isOpenForm,
         isEdit: state.earningReducer.isEdit,
+        pickedDate: state.reportingReducer.pickedDate,
+        isFirstLoad: state.reportingReducer.isFirstLoad,
     }
 }
 
@@ -92,7 +145,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         updateIsLoading: (status) => {
             dispatch({type: CONSTANTS.UPDATE_IS_LOADING_EARNING_PAGE, status})
-        }
+        },
+        updatePickedDay: (pickedDate) => {
+            dispatch({type: CONSTANTS.UPDATE_PICKED_DAY, pickedDate})
+        },
     }
 }
 

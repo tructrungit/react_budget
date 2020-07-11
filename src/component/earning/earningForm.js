@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { CONSTANTS } from '../constants';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import 'react-day-picker/lib/style.css';
+import { DatePicker } from 'antd';
+import 'antd/dist/antd.css';
 import moment from 'moment';
 import '../../css/form.css'
 
@@ -14,7 +14,7 @@ class EarningForm extends Component {
             formTitle: this.props.editData.title || '',
             formAmount: this.props.editData.amount || '',
             formDate: this.props.editData.date || moment().format('YYYY-M-DD'),
-            selectedDay: this.props.editData.date || moment().toDate()
+            selectedDay: moment(this.props.editData.date) || moment()
         }
     }
 
@@ -26,12 +26,13 @@ class EarningForm extends Component {
         });
     }
 
-    handleDayChange(selectedDay, modifiers, dayPickerInput) {
-        let input = dayPickerInput.getInput();
-        this.setState({
-            selectedDay: selectedDay,
-            formDate: input.value
-        });
+    handleDayChange(date, dateString) {
+        if (dateString) {
+            this.setState({
+                selectedDay: date,
+                formDate: dateString
+            });
+        }
     }
     
     addData = (title, amount, date) => {
@@ -39,6 +40,7 @@ class EarningForm extends Component {
         item.title = title;
         item.amount = amount * 1000;
         item.date = date;
+        item.milliseconds = moment(date).valueOf();
         if (this.props.isEdit) item.key = this.props.editData.key;
         this.props.addData(item);
         this.props.showHideEarningForm();
@@ -50,7 +52,7 @@ class EarningForm extends Component {
                 <div className="form_main">
                 <h4 className="heading"><strong>{this.props.isEdit ? 'Edit' : 'Create'} </strong> Income <span /></h4>
                 <div className="form">
-                    <form method="post" onSubmit={() => this.addData(this.state.formTitle, this.state.formAmount, this.state.formDate)}>
+                <form method="post" onSubmit={() => this.addData(this.state.formTitle, this.state.formAmount, this.state.formDate)}>
                         <div className="form-group">
                             <label htmlFor="input-title" className="font-weight-bold">Title</label>
                             <input onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-title" aria-describedby="helpId"
@@ -60,15 +62,17 @@ class EarningForm extends Component {
                             <label htmlFor="input-amount" className="font-weight-bold">Amount</label>
                             <input onChange={(event) => this.changeForm(event)} type="number" min="0" id="input-amount" aria-describedby="helpId"
                                 name="formAmount" defaultValue={this.state.formAmount} required></input>
-                            <small id="formAmountHelp" className="form-text text-muted">Amount will auto multiple 1000, ex: your input 100 == 100.000</small>
+                            <small id="formAmountHelp" className="form-text text-muted"></small>
+                            <DatePicker 
+                            onChange={this.handleDayChange} 
+                            defaultValue={this.state.selectedDay}
+                            format={CONSTANTS.DAY_FORMAT}/>
                         </div>       
                         <div className="form-group">           
-                            <DayPickerInput
-                                value={this.state.selectedDay}
-                                onDayChange={this.handleDayChange}
-                            />
+                            
                         </div>    
                         <br/>
+                        {/* <button className="txt2" type="button" onClick={() => this.addData(this.state.formTitle, this.state.formAmount, this.state.formDate)} >Save</button> */}
                         <button className="txt2" type="submit" >Save</button>
                         <button onClick={() => this.props.showHideEarningForm()} className="txt2 btn-info" type="button" >Cancel</button>
                     </form>
