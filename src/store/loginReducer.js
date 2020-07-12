@@ -2,7 +2,7 @@ import { CONSTANTS } from "../component/constants";
 
 const loginState = {
     user: '',
-    isLogin: true
+    isLogin: false
 }
 
 export const loginReducer = (state = loginState, action) => {

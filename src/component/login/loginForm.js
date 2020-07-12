@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import './loginForm.css'
-import { getUser } from '../../action/userAction';
+import { getUser, googleLogin } from '../../action/userAction';
 
 
 class LoginForm extends Component {
@@ -30,25 +30,27 @@ class LoginForm extends Component {
             <div className="limiter">
                 <div className="container-login100">
                     <div className="wrap-login100">
-                        <form method="post" id="loginForm" name="loginForm" className="login100-form">
-                            <span className="login100-form-title p-b-26">
-                                Welcome
-                            </span>
-                            <div className="wrap-input100">
-                                <input onChange={(event) => this.changeForm(event)} type="text" className="input100" id="input-userName" aria-describedby="helpId"
-                                    name="userName" placeholder="Email"></input>
+                        <span className="login100-form-title p-b-26">
+                            Welcome
+                        </span>
+                        <div className="wrap-input100">
+                            <input onChange={(event) => this.changeForm(event)} type="text" className="input100" id="input-userName" aria-describedby="helpId"
+                                name="userName" placeholder="Email"></input>
+                        </div>
+                        <div className="wrap-input100">
+                            <input onChange={(event) => this.changeForm(event)} type="password" className="input100" id="input-password" aria-describedby="helpId"
+                                name="password" placeholder="Password"></input>
+                        </div>
+                        <div className="container-login100-form-btn">
+                            <div className="wrap-login100-form-btn">
+                                <div className="login100-form-bgbtn"></div>
+                                <button type="button" onClick={() => this.handleLogin()} className="login100-form-btn">Login</button>
                             </div>
-                            <div className="wrap-input100">
-                                <input onChange={(event) => this.changeForm(event)} type="password" className="input100" id="input-password" aria-describedby="helpId"
-                                    name="password" placeholder="Password"></input>
-                            </div>
-                            <div className="container-login100-form-btn">
-                                <div className="wrap-login100-form-btn">
-                                    <div className="login100-form-bgbtn"></div>
-                                    <button type="button" onClick={() => this.handleLogin()} className="login100-form-btn">Login</button>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
+                        <br />
+                        <div className="container-login100-form-btn">
+                            <button className="loginBtn loginBtn--google" id="btnGoogle" onClick={() => this.props.googleLogin()}>Login with Google</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -69,6 +71,6 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-const mapDispatchToProps = { getUser };
+const mapDispatchToProps = { getUser, googleLogin };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
