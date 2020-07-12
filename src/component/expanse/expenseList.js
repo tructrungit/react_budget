@@ -31,7 +31,7 @@ class ExpenseList extends Component {
                 data.key = item.key;
                 data.title = item.val().title;
                 data.date = item.val().date;
-                data.amount = item.val().amount;
+                data.amount = item.val().amount / 1000;
                 data.amountByCurrency = UTILS.FORMAT_AMOUNT(item.val().amount);
                 data.content = item.val().content;
                 originalData.push(data);

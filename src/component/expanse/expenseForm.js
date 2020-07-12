@@ -70,7 +70,7 @@ class ExpenseForm extends Component {
                             <small id="formAmountHelp" className="form-text text-muted">Amount will auto multiple 1000, ex: your input 100 == 100.000</small>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="input-content" className="font-weight-bold">Conent</label>
+                            <label htmlFor="input-content" className="font-weight-bold">Content</label>
                             <textarea onChange={(event) => this.changeForm(event)} type="text" className="txt" id="input-content" aria-describedby="helpId"
                                 name="formContent" defaultValue={this.state.formContent}></textarea>
                             {/* <small id="formContentHelp" className="form-text text-muted">Input content of expense</small> */}

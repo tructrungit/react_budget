@@ -12,8 +12,9 @@ export const getExpenseDataByMonth = (pickedDate) => async dispatch => {
     try {
         let startAt = moment(pickedDate[0], 'YYYY-MM-DD HH:mm').startOf('day').valueOf();
         let endAt = moment(pickedDate[1], 'YYYY-MM-DD HH:mm').endOf('day').valueOf();
-        let expenseDataByMonth = [];
+        let tmp = [];
         expenseData.orderByChild("milliseconds").startAt(startAt).endAt(endAt).on("value", (data) => {
+            let expenseDataByMonth = [];
             data.forEach((item) => {
                 var data = {};
                 data.key = item.key;
@@ -22,9 +23,12 @@ export const getExpenseDataByMonth = (pickedDate) => async dispatch => {
                 data.amountByCurrency = UTILS.FORMAT_AMOUNT(item.val().amount);
                 data.content = item.val().content;
                 data.date = item.val().date;
+                tmp.push(data);
                 expenseDataByMonth.push(data);
             })
-            dispatch(loadExpenseDataByMonth(expenseDataByMonth))
+            if (UTILS.COMPARE_TWO_ARRAY_OBJECT(tmp, expenseDataByMonth)) {
+                dispatch(loadExpenseDataByMonth(expenseDataByMonth));
+            }
         });
     } catch (error) {
         console.log(error);
@@ -41,8 +45,9 @@ export const getEarningDataByMonth = (pickedDate) => async dispatch => {
     try {
         let startAt = moment(pickedDate[0], 'YYYY-MM-DD HH:mm').startOf('day').valueOf();
         let endAt = moment(pickedDate[1], 'YYYY-MM-DD HH:mm').endOf('day').valueOf();
-        let earningDataByMonth = [];
+        let tmp = [];
         earningData.orderByChild("milliseconds").startAt(startAt).endAt(endAt).on("value", (data) => {
+            let earningDataByMonth = [];
             data.forEach((item) => {
                 var data = {};
                 data.key = item.key;
@@ -52,7 +57,9 @@ export const getEarningDataByMonth = (pickedDate) => async dispatch => {
                 data.date = item.val().date;
                 earningDataByMonth.push(data);
             })
-            dispatch(loadEarningDataByMonth(earningDataByMonth))
+            if (UTILS.COMPARE_TWO_ARRAY_OBJECT(tmp, earningDataByMonth)) {
+                dispatch(loadEarningDataByMonth(earningDataByMonth));
+            }
         });
     } catch (error) {
         console.log(error);
@@ -75,7 +82,6 @@ export const getMonthlyEarning = (pickedDate) => async dispatch => {
             } else {
                 dispatch(loadMonthlyEarning({}));
             }
-            
         });
     } catch (error) {
         console.log(error);
