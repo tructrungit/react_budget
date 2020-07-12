@@ -23,10 +23,14 @@ export const getExpenseDataByMonth = (pickedDate) => async dispatch => {
                 data.amountByCurrency = UTILS.FORMAT_AMOUNT(item.val().amount);
                 data.content = item.val().content;
                 data.date = item.val().date;
+                data.milliseconds = item.val().milliseconds;
                 tmp.push(data);
                 expenseDataByMonth.push(data);
             })
             if (UTILS.COMPARE_TWO_ARRAY_OBJECT(tmp, expenseDataByMonth)) {
+                expenseDataByMonth = expenseDataByMonth.sort((a,b) => {
+                    return b.milliseconds - a.milliseconds;
+                });
                 dispatch(loadExpenseDataByMonth(expenseDataByMonth));
             }
         });
@@ -55,6 +59,7 @@ export const getEarningDataByMonth = (pickedDate) => async dispatch => {
                 data.amount = item.val().amount;
                 data.amountByCurrency = UTILS.FORMAT_AMOUNT(item.val().amount);
                 data.date = item.val().date;
+                tmp.push(data);
                 earningDataByMonth.push(data);
             })
             if (UTILS.COMPARE_TWO_ARRAY_OBJECT(tmp, earningDataByMonth)) {
