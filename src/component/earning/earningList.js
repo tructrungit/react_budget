@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { CONSTANTS } from '../constants';
-import 'react-day-picker/lib/style.css';
 import { Table } from 'antd';
 import 'antd/dist/antd.css';
 import { earningData } from '../firebaseConnect';
