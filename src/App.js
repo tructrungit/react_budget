@@ -3,6 +3,12 @@ import './App.css';
 import LoginForm from './component/login/loginForm';
 import { connect } from 'react-redux';
 import HomePage from './component/home';
+var schedule = require('node-schedule');
+var cronExpress = '*/5 * * * * *';
+var j = schedule.scheduleJob(cronExpress, function(fireDate){
+    console.log('running job!');
+    console.log(fireDate)
+});
 
 class App extends Component {
     render() {
